@@ -20,6 +20,14 @@ from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 st.set_page_config(page_title="Stock Analyzer", layout="wide")
 st.title("Stock Analysis Dashboard")
 
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Prices",
+    "Returns",
+    "Risk",
+    "Correlation",
+    "About"
+])
+
 # -- Sidebar: user inputs --------------------------------
 st.sidebar.header("Settings")
 
@@ -97,35 +105,37 @@ if tickers:
     max_close = float(df["Close"].max())
     min_close = float(df["Close"].min())
 
-    st.subheader(f"{tickers[0]} — Key Metrics")
+    with tab1:
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Latest Close", f"${latest_close:,.2f}")
-    col2.metric("1-Year Return", f"{total_return:.2%}")
-    col3.metric("Annualized Volatility (sigma)", f"{ann_volatility:.2%}")
+        st.subheader(f"{tickers[0]} — Key Metrics")
 
-    col4, col5, _ = st.columns(3)
-    col4.metric("Period High", f"${max_close:,.2f}")
-    col5.metric("Period Low", f"${min_close:,.2f}")
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Latest Close", f"${latest_close:,.2f}")
+        col2.metric("1-Year Return", f"{total_return:.2%}")
+        col3.metric("Annualized Volatility (sigma)", f"{ann_volatility:.2%}")
 
-    st.divider()
+        col4, col5, _ = st.columns(3)
+        col4.metric("Period High", f"${max_close:,.2f}")
+        col5.metric("Period Low", f"${min_close:,.2f}")
 
-    # -- Price chart --------------------------------------
-    st.subheader("Closing Price")
+        st.divider()
 
-    fig = go.Figure()
-    fig.add_trace(
-        go.Scatter(
-            x=df.index, y=df["Close"],
-            mode="lines", name="Close Price",
-            line=dict(width=1.5)
+     # -- Price chart --------------------------------------
+        st.subheader("Closing Price")
+
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=df.index, y=df["Close"],
+                mode="lines", name="Close Price",
+                line=dict(width=1.5)
+            )
         )
-    )
-    fig.update_layout(
-        yaxis_title="Price (USD)", xaxis_title="Date",
-        template="plotly_white", height=450
-    )
-    st.plotly_chart(fig, width="stretch")
+        fig.update_layout(
+            yaxis_title="Price (USD)", xaxis_title="Date",
+            template="plotly_white", height=450
+        )
+        st.plotly_chart(fig, width="stretch")
 
-else:
-    st.info("Enter a stock ticker in the sidebar to get started.")
+    if not tickers: 
+        st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
