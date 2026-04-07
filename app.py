@@ -264,7 +264,7 @@ if tickers:
         )
 
         st.plotly_chart(fig_vol, width="stretch")
-        
+
         st.subheader("Return Distribution")
 
         selected_stock = st.selectbox(
@@ -309,5 +309,16 @@ if tickers:
         )
 
         st.plotly_chart(fig_hist, width="stretch")
+
+        r = prices[selected_stock].pct_change().dropna()
+        jb_stat, jb_p = jarque_bera(r)
+
+        st.write(f"**Jarque-Bera Statistic:** {jb_stat:.4f}")
+        st.write(f"**p-value:** {jb_p:.6f}")
+
+        if jb_p < 0.05:
+            st.error("Rejects normality (p < 0.05)")
+        else:
+            st.success("Fails to reject normality (p >= 0.05)")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
