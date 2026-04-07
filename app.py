@@ -65,8 +65,6 @@ def load_data(ticker: str, start: date, end: date) -> pd.DataFrame:
         threads=False
     )
 
-    st.write("DEBUG:", ticker, df.shape)
-
     return df
 
 # -- Main logic -------------------------------------------
