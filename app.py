@@ -56,8 +56,17 @@ if (end_date - start_date).days < 365:
 # ensures the cache expires after one hour so data stays fresh.
 @st.cache_data(show_spinner="Fetching data...", ttl=3600)
 def load_data(ticker: str, start: date, end: date) -> pd.DataFrame:
-    """Download daily data from Yahoo Finance for a given date range."""
-    df = yf.download(ticker, start=start, end=end, progress=False)
+    df = yf.download(
+        ticker,
+        start=start,
+        end=end,
+        interval="1d",
+        progress=False,
+        threads=False
+    )
+
+    st.write("DEBUG:", ticker, df.shape)
+
     return df
 
 # -- Main logic -------------------------------------------
