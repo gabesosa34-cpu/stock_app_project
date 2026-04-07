@@ -10,6 +10,9 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import date, timedelta
 import math
+import numpy as np
+import plotly.express as px
+from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 
 # -- Page configuration ----------------------------------
 # st.set_page_config must be the FIRST Streamlit command in the script.
@@ -20,7 +23,12 @@ st.title("Stock Analysis Dashboard")
 # -- Sidebar: user inputs --------------------------------
 st.sidebar.header("Settings")
 
-ticker = st.sidebar.text_input("Stock Ticker", value="AAPL").upper().strip()
+tickers_input = st.sidebar.text_input(
+    "Enter 2 to 5 Stock Tickers (comma separated)",
+    value="AAPL,MSFT"
+).upper()
+
+tickers = [t.strip() for t in tickers_input.split(",") if t.strip()]
 
 # Default date range: one year back from today
 default_start = date.today() - timedelta(days=365)
@@ -32,6 +40,16 @@ if start_date >= end_date:
     st.sidebar.error("Start date must be before end date.")
     st.stop()
 
+# Validate ticker count
+if len(tickers) < 2 or len(tickers) > 5:
+    st.sidebar.error("Please enter between 2 and 5 stock tickers.")
+    st.stop()
+
+# Enforce minimum 1-year range
+if (end_date - start_date).days < 365:
+    st.sidebar.error("Date range must be at least 1 year.")
+    st.stop()
+    
 # -- Data download ----------------------------------------
 # We wrap the download in st.cache_data so repeated runs with
 # the same inputs don't re-download every time. The ttl (time-to-live)
