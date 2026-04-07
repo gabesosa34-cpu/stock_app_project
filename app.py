@@ -94,8 +94,6 @@ def load_data(tickers: list[str], start: date, end: date):
                 bad_tickers.append(t)
                 continue
 
-            price_dict[t] = df["Adj Close"]
-
         except Exception:
             bad_tickers.append(t)
 
