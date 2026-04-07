@@ -18,7 +18,14 @@ from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 # st.set_page_config must be the FIRST Streamlit command in the script.
 # If you add any other st.* calls above this line, you'll get an error.
 st.set_page_config(page_title="Stock Analyzer", layout="wide")
-st.title("Stock Analysis Dashboard")
+st.markdown("""
+    <h1 style='text-align: center; color: #0A84FF;'>
+        Stock Performance & Risk Dashboard
+    </h1>
+    <p style='text-align: center; color: gray;'>
+        Compare stocks, analyze risk, and benchmark against the S&P 500
+    </p>
+""", unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Prices",
