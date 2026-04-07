@@ -150,7 +150,7 @@ if tickers:
     min_close = float(df["Close"].min())
 
     with tab1:
-        st.write("TAB 1")
+        
         st.subheader(f"{tickers[0]} — Key Metrics")
 
         col1, col2, col3 = st.columns(3)
@@ -191,7 +191,7 @@ if tickers:
         st.plotly_chart(fig, width="stretch")
 
     with tab2:
-        st.write("TAB 2")
+    
         st.subheader("Summary Statistics")
 
         stats_table = summary_stats(returns.to_frame(name=tickers[0]))
@@ -237,7 +237,7 @@ if tickers:
         st.plotly_chart(fig_wealth, width="stretch")
 
     with tab3:
-        st.write("TAB 3")
+        #ROLL VOL ---------------------------------
         st.subheader("Rolling Volatility (30-Day)")
         returns_df = prices.pct_change().dropna()
 
@@ -272,6 +272,7 @@ if tickers:
             options=[t for t in prices.columns if t != "^GSPC"]
         )
 
+        #HIST -------------------------------------------------
         r = prices[selected_stock].pct_change().dropna()
 
         # Fit normal distribution
@@ -320,5 +321,41 @@ if tickers:
             st.error("Rejects normality (p < 0.05)")
         else:
             st.success("Fails to reject normality (p >= 0.05)")
+        # QQ plot ---------------------------------------------    
+        st.subheader("Q-Q Plot")
+
+        qq = probplot(r, dist="norm")
+        theoretical = qq[0][0]
+        ordered = qq[0][1]
+
+        fig_qq = go.Figure()
+
+        fig_qq.add_trace(
+            go.Scatter(
+                x=theoretical,
+                y=ordered,
+                mode="markers",
+                name="Q-Q Points"
+            )
+        )
+
+        fig_qq.add_trace(
+            go.Scatter(
+                x=theoretical,
+                y=theoretical,
+                mode="lines",
+                name="45° Line"
+            )
+        )
+
+        fig_qq.update_layout(
+            title=f"{selected_stock} Q-Q Plot",
+            xaxis_title="Theoretical Quantiles",
+            yaxis_title="Sample Quantiles",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_qq, width="stretch")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
