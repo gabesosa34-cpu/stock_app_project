@@ -86,7 +86,11 @@ def load_data(tickers: list[str], start: date, end: date):
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
 
-            if "Adj Close" not in df.columns:
+            if "Adj Close" in df.columns:
+                price_dict[t] = df["Adj Close"]
+            elif "Close" in df.columns:
+                price_dict[t] = df["Close"]
+            else:
                 bad_tickers.append(t)
                 continue
 
