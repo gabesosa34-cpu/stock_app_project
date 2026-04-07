@@ -119,6 +119,7 @@ def summary_stats(returns_df: pd.DataFrame) -> pd.DataFrame:
 if tickers:
     try:
         prices, bad_tickers = load_data(tickers, start_date, end_date)
+        df = pd.DataFrame({"Close": prices[tickers[0]]})
     except Exception as e:
         st.error(f"Failed to download data: {e}")
         st.stop()   
