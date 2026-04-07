@@ -36,7 +36,8 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 ])
 
 # -- Sidebar: user inputs --------------------------------
-st.sidebar.header("Settings")
+st.sidebar.header("Dashboard Controls")
+st.sidebar.caption("Choose stocks and a date range to update the analysis.")st.sidebar.header("Settings")
 
 tickers_input = st.sidebar.text_input(
     "Enter 2 to 5 Stock Tickers (comma separated)",
