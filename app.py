@@ -63,15 +63,45 @@ if (end_date - start_date).days < 365:
 # the same inputs don't re-download every time. The ttl (time-to-live)
 # ensures the cache expires after one hour so data stays fresh.
 @st.cache_data(show_spinner="Fetching data...", ttl=3600)
-def load_data(ticker: str, start: date, end: date) -> pd.DataFrame:
-    df = yf.download(
-        ticker,
-        start=start,
-        end=end,
-        interval="1d",
-        progress=False,
-        threads=False
-    )
+def load_data(tickers: list[str], start: date, end: date):
+    all_tickers = tickers + ["^GSPC"]
+    price_dict = {}
+    bad_tickers = []
+
+    for t in all_tickers:
+        try:
+            df = yf.download(
+                t,
+                start=start,
+                end=end,
+                interval="1d",
+                progress=False,
+                threads=False
+            )
+
+            if df.empty:
+                bad_tickers.append(t)
+                continue
+
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+
+            if "Adj Close" not in df.columns:
+                bad_tickers.append(t)
+                continue
+
+            price_dict[t] = df["Adj Close"]
+
+        except Exception:
+            bad_tickers.append(t)
+
+    if not price_dict:
+        return pd.DataFrame(), bad_tickers
+
+    prices = pd.DataFrame(price_dict)
+
+    return prices, bad_tickers
+
 @st.cache_data(ttl=3600)
 def summary_stats(returns_df: pd.DataFrame) -> pd.DataFrame:
     stats_df = pd.DataFrame(index=returns_df.columns)
