@@ -357,7 +357,9 @@ if tickers:
         )
 
         st.plotly_chart(fig_qq, width="stretch")
+
     with tab4:
+        #COR ----------------------------------
         st.subheader("Correlation Matrix")
 
         returns_df = prices.pct_change().dropna()
@@ -382,5 +384,19 @@ if tickers:
         )
 
         st.plotly_chart(fig_corr, width="stretch")
+    with tab5:
+        st.subheader("About This App")
+
+        st.write("""
+        This dashboard analyzes stock performance using historical data from Yahoo Finance.
+
+        It allows users to compare multiple stocks against the S&P 500 and evaluate:
+        - Price performance
+        - Returns and cumulative growth
+        - Risk (volatility and distribution)
+        - Correlation between assets
+
+        The analysis includes statistical measures and visualizations to better understand risk and return behavior.
+        """)
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
