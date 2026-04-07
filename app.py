@@ -28,10 +28,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "Prices",
-    "Returns",
-    "Risk",
-    "Correlation",
+    "Market View",
+    "Performance",
+    "Risk Analysis",
+    "Relationships",
     "About"
 ])
 
