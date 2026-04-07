@@ -72,8 +72,18 @@ def load_data(ticker: str, start: date, end: date) -> pd.DataFrame:
         progress=False,
         threads=False
     )
+@st.cache_data(ttl=3600)
+def summary_stats(returns_df: pd.DataFrame) -> pd.DataFrame:
+    stats_df = pd.DataFrame(index=returns_df.columns)
 
-    return df
+    stats_df["Annualized Mean Return"] = returns_df.mean() * 252
+    stats_df["Annualized Volatility"] = returns_df.std() * np.sqrt(252)
+    stats_df["Skewness"] = returns_df.apply(skew)
+    stats_df["Kurtosis"] = returns_df.apply(kurtosis)
+    stats_df["Min Daily Return"] = returns_df.min()
+    stats_df["Max Daily Return"] = returns_df.max()
+
+    return stats_df
 
 # -- Main logic -------------------------------------------
 if tickers:
