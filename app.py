@@ -99,7 +99,7 @@ if tickers:
     max_close = float(df["Close"].max())
     min_close = float(df["Close"].min())
 
-    st.subheader(f"{ticker} — Key Metrics")
+    st.subheader(f"{tickers[0]} — Key Metrics")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Latest Close", f"${latest_close:,.2f}")
