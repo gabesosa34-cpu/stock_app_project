@@ -365,6 +365,31 @@ if tickers:
         )
 
         st.plotly_chart(fig_qq, width="stretch")
+        #BOX -----------------------------------
+        st.subheader("Box Plot of Daily Returns")
+
+        box_returns = prices[[t for t in prices.columns if t != "^GSPC"]].pct_change().dropna()
+
+        fig_box = go.Figure()
+
+        for col in box_returns.columns:
+            fig_box.add_trace(
+                go.Box(
+                    y=box_returns[col],
+                    name=col,
+                    boxmean=True
+                )
+            )
+
+        fig_box.update_layout(
+            title="Daily Return Distributions",
+            yaxis_title="Daily Return",
+            xaxis_title="Stocks",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_box, width="stretch")
 
     with tab4:
         #COR ----------------------------------
