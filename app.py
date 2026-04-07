@@ -152,7 +152,6 @@ if tickers:
     min_close = float(df["Close"].min())
 
     with tab1:
-
         st.subheader(f"{tickers[0]} — Key Metrics")
 
         col1, col2, col3 = st.columns(3)
@@ -191,8 +190,8 @@ if tickers:
             template="plotly_white", height=450
         )
         st.plotly_chart(fig, width="stretch")
-    with tab2:
 
+    with tab2:
             st.subheader("Summary Statistics")
 
             stats_table = summary_stats(returns.to_frame(name=tickers[0]))
@@ -236,5 +235,34 @@ if tickers:
             )
 
             st.plotly_chart(fig_wealth, width="stretch")
+
+    with tab3:
+        st.subheader("Rolling Volatility (30-Day)")
+
+    returns_df = prices.pct_change().dropna()
+
+    rolling_vol = returns_df.rolling(30).std() * np.sqrt(252)
+
+    fig_vol = go.Figure()
+
+    for col in rolling_vol.columns:
+        fig_vol.add_trace(
+            go.Scatter(
+                x=rolling_vol.index,
+                y=rolling_vol[col],
+                mode="lines",
+                name=col
+            )
+        )
+
+    fig_vol.update_layout(
+        title="Rolling 30-Day Annualized Volatility",
+        xaxis_title="Date",
+        yaxis_title="Volatility",
+        template="plotly_white",
+        height=500
+    )
+
+    st.plotly_chart(fig_vol, width="stretch")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
