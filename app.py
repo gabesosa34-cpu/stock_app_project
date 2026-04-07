@@ -169,14 +169,20 @@ if tickers:
     # -- Price chart --------------------------------------
         st.subheader("Closing Price")
 
+        selected_chart_tickers = [t for t in tickers if t in prices.columns]
+
         fig = go.Figure()
-        fig.add_trace(
-            go.Scatter(
-                x=df.index, y=df["Close"],
-                mode="lines", name="Close Price",
-                line=dict(width=1.5)
+
+        for t in selected_chart_tickers:
+            fig.add_trace(
+                go.Scatter(
+                    x=prices.index,
+                    y=prices[t],
+                    mode="lines",
+                    name=t,
+                    line=dict(width=1.5)
+                )
             )
-        )
         fig.update_layout(
             yaxis_title="Price (USD)", xaxis_title="Date",
             template="plotly_white", height=450
