@@ -49,7 +49,7 @@ if len(tickers) < 2 or len(tickers) > 5:
 if (end_date - start_date).days < 365:
     st.sidebar.error("Date range must be at least 1 year.")
     st.stop()
-    
+
 # -- Data download ----------------------------------------
 # We wrap the download in st.cache_data so repeated runs with
 # the same inputs don't re-download every time. The ttl (time-to-live)
@@ -61,16 +61,16 @@ def load_data(ticker: str, start: date, end: date) -> pd.DataFrame:
     return df
 
 # -- Main logic -------------------------------------------
-if ticker:
+if tickers:
     try:
-        df = load_data(ticker, start_date, end_date)
+        df = load_data(tickers[0], start_date, end_date)
     except Exception as e:
         st.error(f"Failed to download data: {e}")
         st.stop()   
 
     if df.empty:
         st.error(
-            f"No data found for **{ticker}**. "
+            f"No data found for **{tickers}**. "
             "Check the ticker symbol and try again."
         )
         st.stop()
