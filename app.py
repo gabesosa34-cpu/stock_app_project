@@ -171,6 +171,9 @@ if tickers:
 
         selected_chart_tickers = [t for t in tickers if t in prices.columns]
 
+        if "^GSPC" in prices.columns:
+            selected_chart_tickers.append("^GSPC")
+
         fig = go.Figure()
 
         for t in selected_chart_tickers:
