@@ -208,5 +208,33 @@ if tickers:
                 }),
                 width="stretch"
             )
+            st.subheader("Growth of $10,000")
+
+            wealth_df = pd.DataFrame(index=prices.index)
+
+            for col in prices.columns:
+                wealth_df[col] = 10000 * (prices[col] / prices[col].iloc[0])
+
+            fig_wealth = go.Figure()
+
+            for col in wealth_df.columns:
+                fig_wealth.add_trace(
+                    go.Scatter(
+                        x=wealth_df.index,
+                        y=wealth_df[col],
+                        mode="lines",
+                        name=col
+                    )
+                )
+
+            fig_wealth.update_layout(
+                title="Cumulative Wealth (Normalized to $10,000)",
+                xaxis_title="Date",
+                yaxis_title="Portfolio Value ($)",
+                template="plotly_white",
+                height=500
+            )
+
+            st.plotly_chart(fig_wealth, width="stretch")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
