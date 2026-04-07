@@ -264,5 +264,50 @@ if tickers:
         )
 
         st.plotly_chart(fig_vol, width="stretch")
+        
+        st.subheader("Return Distribution")
+
+        selected_stock = st.selectbox(
+            "Select a stock for distribution analysis",
+            options=[t for t in prices.columns if t != "^GSPC"]
+        )
+
+        r = prices[selected_stock].pct_change().dropna()
+
+        # Fit normal distribution
+        mu, sigma = norm.fit(r)
+
+        x_vals = np.linspace(r.min(), r.max(), 300)
+        y_vals = norm.pdf(x_vals, mu, sigma)
+
+        fig_hist = go.Figure()
+
+        fig_hist.add_trace(
+            go.Histogram(
+                x=r,
+                histnorm="probability density",
+                name="Returns",
+                opacity=0.6
+            )
+        )
+
+        fig_hist.add_trace(
+            go.Scatter(
+                x=x_vals,
+                y=y_vals,
+                mode="lines",
+                name="Normal Distribution Fit"
+            )
+        )
+
+        fig_hist.update_layout(
+            title=f"{selected_stock} Return Distribution",
+            xaxis_title="Daily Return",
+            yaxis_title="Density",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_hist, width="stretch")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
