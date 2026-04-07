@@ -192,53 +192,53 @@ if tickers:
         st.plotly_chart(fig, width="stretch")
 
     with tab2:
-            st.subheader("Summary Statistics")
+        st.subheader("Summary Statistics")
 
-            stats_table = summary_stats(returns.to_frame(name=tickers[0]))
+        stats_table = summary_stats(returns.to_frame(name=tickers[0]))
 
-            st.dataframe(
-                stats_table.style.format({
-                    "Annualized Mean Return": "{:.2%}",
-                    "Annualized Volatility": "{:.2%}",
-                    "Skewness": "{:.3f}",
-                    "Kurtosis": "{:.3f}",
-                    "Min Daily Return": "{:.2%}",
-                    "Max Daily Return": "{:.2%}",
-                }),
-                width="stretch"
-            )
-            st.subheader("Growth of $10,000")
+        st.dataframe(
+            stats_table.style.format({
+                "Annualized Mean Return": "{:.2%}",
+                "Annualized Volatility": "{:.2%}",
+                "Skewness": "{:.3f}",
+                "Kurtosis": "{:.3f}",
+                "Min Daily Return": "{:.2%}",
+                "Max Daily Return": "{:.2%}",
+            }),
+            width="stretch"
+        )
+        st.subheader("Growth of $10,000")
 
-            wealth_df = pd.DataFrame(index=prices.index)
+        wealth_df = pd.DataFrame(index=prices.index)
 
-            for col in prices.columns:
-                wealth_df[col] = 10000 * (prices[col] / prices[col].iloc[0])
+        for col in prices.columns:
+            wealth_df[col] = 10000 * (prices[col] / prices[col].iloc[0])
 
-            fig_wealth = go.Figure()
+        fig_wealth = go.Figure()
 
-            for col in wealth_df.columns:
-                fig_wealth.add_trace(
-                    go.Scatter(
-                        x=wealth_df.index,
-                        y=wealth_df[col],
-                        mode="lines",
-                        name=col
-                    )
+        for col in wealth_df.columns:
+            fig_wealth.add_trace(
+                go.Scatter(
+                    x=wealth_df.index,
+                    y=wealth_df[col],
+                    mode="lines",
+                    name=col
                 )
-
-            fig_wealth.update_layout(
-                title="Cumulative Wealth (Normalized to $10,000)",
-                xaxis_title="Date",
-                yaxis_title="Portfolio Value ($)",
-                template="plotly_white",
-                height=500
             )
 
-            st.plotly_chart(fig_wealth, width="stretch")
+        fig_wealth.update_layout(
+            title="Cumulative Wealth (Normalized to $10,000)",
+            xaxis_title="Date",
+            yaxis_title="Portfolio Value ($)",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_wealth, width="stretch")
 
     with tab3:
-        st.subheader("Rolling Volatility (30-Day)")
 
+        st.subheader("Rolling Volatility (30-Day)")
     returns_df = prices.pct_change().dropna()
 
     rolling_vol = returns_df.rolling(30).std() * np.sqrt(252)
