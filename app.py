@@ -106,6 +106,7 @@ if tickers:
 
     # -- Compute a derived column -------------------------
     df["Daily Return"] = df["Close"].pct_change()
+    returns = df["Close"].pct_change().dropna()
 
     # -- Key metrics --------------------------------------
     latest_close = float(df["Close"].iloc[-1])
@@ -130,7 +131,7 @@ if tickers:
 
         st.divider()
 
-     # -- Price chart --------------------------------------
+    # -- Price chart --------------------------------------
         st.subheader("Closing Price")
 
         fig = go.Figure()
@@ -146,6 +147,22 @@ if tickers:
             template="plotly_white", height=450
         )
         st.plotly_chart(fig, width="stretch")
+    with tab2:
 
-    if not tickers: 
-        st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
+            st.subheader("Summary Statistics")
+
+            stats_table = summary_stats(returns.to_frame(name=tickers[0]))
+
+            st.dataframe(
+                stats_table.style.format({
+                    "Annualized Mean Return": "{:.2%}",
+                    "Annualized Volatility": "{:.2%}",
+                    "Skewness": "{:.3f}",
+                    "Kurtosis": "{:.3f}",
+                    "Min Daily Return": "{:.2%}",
+                    "Max Daily Return": "{:.2%}",
+                }),
+                width="stretch"
+            )
+else: 
+    st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
