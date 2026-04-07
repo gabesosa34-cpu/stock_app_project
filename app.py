@@ -70,7 +70,7 @@ if tickers:
 
     if df.empty:
         st.error(
-            f"No data found for **{tickers}**. "
+            f"No data found for **{tickers[0]}**. "
             "Check the ticker symbol and try again."
         )
         st.stop()
