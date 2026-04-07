@@ -357,5 +357,30 @@ if tickers:
         )
 
         st.plotly_chart(fig_qq, width="stretch")
+    with tab4:
+        st.subheader("Correlation Matrix")
+
+        returns_df = prices.pct_change().dropna()
+
+        corr_matrix = returns_df.corr()
+
+        fig_corr = go.Figure(
+            data=go.Heatmap(
+                z=corr_matrix.values,
+                x=corr_matrix.columns,
+                y=corr_matrix.columns,
+                colorscale="RdBu",
+                zmin=-1,
+                zmax=1,
+                colorbar=dict(title="Correlation")
+            )
+        )
+
+        fig_corr.update_layout(
+            title="Correlation Heatmap of Returns",
+            height=500
+        )
+
+        st.plotly_chart(fig_corr, width="stretch")
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
