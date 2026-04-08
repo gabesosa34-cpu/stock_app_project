@@ -206,7 +206,8 @@ if tickers:
     
         st.subheader("Summary Statistics")
 
-        stats_table = summary_stats(returns.to_frame(name=tickers[0]))
+        stats_returns = prices.pct_change().dropna()
+        stats_table = summary_stats(stats_returns)
 
         st.dataframe(
             stats_table.style.format({
