@@ -409,7 +409,7 @@ if tickers:
         returns_df = prices.pct_change().dropna()
 
         corr_matrix = returns_df.corr()
-
+        #Heat -------------------------
         fig_corr = go.Figure(
             data=go.Heatmap(
                 z=corr_matrix.values,
@@ -496,6 +496,28 @@ if tickers:
         )
 
         st.plotly_chart(fig_rollcorr, width="stretch")
+        #TWO Asset -----------------------------------
+        st.subheader("Two-Asset Portfolio Explorer")
+
+        stock_a = st.selectbox("Select Stock A", tickers, key="port_a")
+        stock_b = st.selectbox("Select Stock B", tickers, index=1, key="port_b")
+
+        weight = st.slider("Weight on Stock A (%)", 0, 100, 50) / 100
+
+        returns_df = prices[[stock_a, stock_b]].pct_change().dropna()
+
+        mean_returns = returns_df.mean() * 252
+        cov_matrix = returns_df.cov() * 252
+
+        w = weight
+
+        portfolio_return = w * mean_returns[stock_a] + (1 - w) * mean_returns[stock_b]
+
+        portfolio_vol = np.sqrt(
+            (w**2) * cov_matrix.loc[stock_a, stock_a] +
+            ((1 - w)**2) * cov_matrix.loc[stock_b, stock_b] +
+            2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]
+        )
     with tab5:
         st.subheader("About This App")
 
