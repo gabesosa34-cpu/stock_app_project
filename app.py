@@ -455,6 +455,45 @@ if tickers:
         )
 
         st.plotly_chart(fig_scatter, width="stretch")
+        #roll-corr ---------------------------------
+        st.subheader("Rolling Correlation")
+
+        corr_stock_1 = st.selectbox("Select first stock", prices.columns, index=0, key="corr1")
+        corr_stock_2 = st.selectbox("Select second stock", prices.columns, index=1, key="corr2")
+        corr_window = st.selectbox("Rolling correlation window", [30, 60, 90], index=0)
+
+        rolling_corr = (
+            prices[[corr_stock_1, corr_stock_2]]
+            .pct_change()
+            .dropna()[corr_stock_1]
+            .rolling(corr_window)
+            .corr(
+                prices[[corr_stock_1, corr_stock_2]]
+                .pct_change()
+                .dropna()[corr_stock_2]
+            )
+        )
+
+        fig_rollcorr = go.Figure()
+
+        fig_rollcorr.add_trace(
+            go.Scatter(
+                x=rolling_corr.index,
+                y=rolling_corr,
+                mode="lines",
+                name="Rolling Correlation"
+            )
+        )
+
+        fig_rollcorr.update_layout(
+            title=f"Rolling {corr_window}-Day Correlation: {corr_stock_1} vs {corr_stock_2}",
+            xaxis_title="Date",
+            yaxis_title="Correlation",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_rollcorr, width="stretch")
     with tab5:
         st.subheader("About This App")
 
