@@ -134,7 +134,6 @@ if tickers:
         st.error(f"Failed to download data: {e}")
         st.stop()
 
-    # ✅ PUT IT HERE (AFTER try/except)
     valid_tickers = [t for t in tickers if t in prices.columns]
 
     if bad_tickers:
@@ -144,14 +143,11 @@ if tickers:
         st.error("Please enter at least 2 valid stock tickers.")
         st.stop()
 
-if len(valid_tickers) < 2:
-    st.error("Please enter at least 2 valid stock tickers.")
-    st.stop()
+    # Safe to use now
+    df = pd.DataFrame({"Close": prices[valid_tickers[0]]})
+
     if df.empty:
-        st.error(
-            f"No data found for **{tickers[0]}**. "
-            "Check the ticker symbol and try again."
-        )
+        st.error(f"No data found for {valid_tickers[0]}. Check the ticker symbol and try again.")
         st.stop()
 
     # Flatten any multi-level columns that yfinance sometimes returns
