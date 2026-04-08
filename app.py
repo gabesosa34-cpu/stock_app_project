@@ -572,15 +572,17 @@ if tickers:
         st.subheader("About This App")
 
         st.write("""
-        This dashboard analyzes stock performance using historical data from Yahoo Finance.
+        This dashboard analyzes stock performance using historical adjusted closing price data from Yahoo Finance (via yfinance).
 
-        It allows users to compare multiple stocks against the S&P 500 and evaluate:
-        - Price performance
-        - Returns and cumulative growth
-        - Risk (volatility and distribution)
-        - Correlation between assets
+        Key assumptions and methodology:
 
-        The analysis includes statistical measures and visualizations to better understand risk and return behavior.
+        - Returns are computed as **simple (arithmetic) daily returns** using percentage change.
+        - Annualized return is calculated as mean daily return × 252 trading days.
+        - Annualized volatility is calculated as standard deviation × √252.
+        - The S&P 500 (^GSPC) is used as a benchmark for comparison.
+        - Portfolio calculations assume equal weighting unless otherwise specified.
+
+        This dashboard provides insights into price performance, risk, return distributions, and diversification across multiple assets.
         """)
 else: 
     st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
