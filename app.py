@@ -518,6 +518,47 @@ if tickers:
             ((1 - w)**2) * cov_matrix.loc[stock_b, stock_b] +
             2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]
         )
+        weights = np.linspace(0, 1, 100)
+        vols = []
+
+        for w in weights:
+            vol = np.sqrt(
+                (w**2) * cov_matrix.loc[stock_a, stock_a] +
+                ((1 - w)**2) * cov_matrix.loc[stock_b, stock_b] +
+                2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]
+            )
+            vols.append(vol)
+
+        fig_port = go.Figure()
+
+        fig_port.add_trace(
+            go.Scatter(
+                x=weights,
+                y=vols,
+                mode="lines",
+                name="Portfolio Volatility"
+            )
+        )
+
+        fig_port.add_trace(
+            go.Scatter(
+                x=[weight],
+                y=[portfolio_vol],
+                mode="markers",
+                marker=dict(size=10),
+                name="Current Allocation"
+            )
+        )
+
+        fig_port.update_layout(
+            title="Portfolio Volatility vs Weight",
+            xaxis_title="Weight on Stock A",
+            yaxis_title="Volatility",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_port, width="stretch")
     with tab5:
         st.subheader("About This App")
 
