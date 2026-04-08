@@ -410,12 +410,19 @@ if tickers:
 
         corr_matrix = returns_df.corr()
 
-        fig_corr = px.imshow(
-            corr_matrix,
-            text_auto=True,  
-            color_continuous_scale="RdBu",
-            zmin=-1,
-            zmax=1
+        fig_corr = go.Figure(
+            data=go.Heatmap(
+                z=corr_matrix.values,
+                x=corr_matrix.columns,
+                y=corr_matrix.columns,
+                colorscale="RdBu",
+                zmin=-1,
+                zmax=1,
+                colorbar=dict(title="Correlation"),
+                text=corr_matrix.round(2).values,
+                texttemplate="%{text}",
+                textfont={"size": 14}
+            )
         )
 
         fig_corr.update_layout(
