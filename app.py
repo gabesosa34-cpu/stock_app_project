@@ -412,7 +412,7 @@ if tickers:
 
         fig_corr = px.imshow(
             corr_matrix,
-            text_auto=".2f",
+            text_auto=True,  
             color_continuous_scale="RdBu",
             zmin=-1,
             zmax=1
