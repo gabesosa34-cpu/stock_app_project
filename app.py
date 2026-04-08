@@ -246,10 +246,12 @@ if tickers:
 
     with tab3:
         #ROLL VOL ---------------------------------
-        st.subheader("Rolling Volatility (30-Day)")
+        vol_window = st.selectbox("Rolling volatility window", [30, 60, 90], index=0)
+
+        st.subheader(f"Rolling Volatility ({vol_window}-Day)")
         returns_df = prices.pct_change().dropna()
 
-        rolling_vol = returns_df.rolling(30).std() * np.sqrt(252)
+        rolling_vol = returns_df.rolling(vol_window).std() * np.sqrt(252)
 
         fig_vol = go.Figure()
 
