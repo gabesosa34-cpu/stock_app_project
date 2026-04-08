@@ -225,7 +225,10 @@ if tickers:
         wealth_df = pd.DataFrame(index=prices.index)
 
         for col in prices.columns:
-            wealth_df[col] = 10000 * (prices[col] / prices[col].iloc[0])
+            wealth_df[col] = 10000 * (prices[col] / prices[col].dropna().iloc[0])
+
+        portfolio_returns = prices[[t for t in prices.columns if t != "^GSPC"]].pct_change().dropna().mean(axis=1)
+        wealth_df["Equal-Weight Portfolio"] = 10000 * (1 + portfolio_returns).cumprod()
 
         fig_wealth = go.Figure()
 
