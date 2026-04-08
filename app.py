@@ -179,14 +179,15 @@ if tickers:
     # -- Price chart --------------------------------------
         st.subheader("Closing Price")
 
-        selected_chart_tickers = [t for t in tickers if t in prices.columns]
-
-        if "^GSPC" in prices.columns:
-            selected_chart_tickers.append("^GSPC")
+        selected_stocks = st.multiselect(
+            "Select stocks to display",
+            options=prices.columns.tolist(),
+            default=prices.columns.tolist()
+        )
 
         fig = go.Figure()
 
-        for t in selected_chart_tickers:
+        for t in selected_stocks:
             fig.add_trace(
                 go.Scatter(
                     x=prices.index,
