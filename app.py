@@ -428,6 +428,33 @@ if tickers:
         )
 
         st.plotly_chart(fig_corr, width="stretch")
+        #Scat-plot ------------------------------
+        st.subheader("Return Scatter Plot")
+
+        stock_x = st.selectbox("Select X-axis stock", prices.columns, index=0)
+        stock_y = st.selectbox("Select Y-axis stock", prices.columns, index=1)
+
+        scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
+
+        fig_scatter = go.Figure()
+
+        fig_scatter.add_trace(
+            go.Scatter(
+                x=scatter_df[stock_x],
+                y=scatter_df[stock_y],
+                mode="markers"
+            )
+        )
+
+        fig_scatter.update_layout(
+            title=f"{stock_x} vs {stock_y} Daily Returns",
+            xaxis_title=stock_x,
+            yaxis_title=stock_y,
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_scatter, width="stretch")
     with tab5:
         st.subheader("About This App")
 
