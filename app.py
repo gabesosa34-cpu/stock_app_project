@@ -150,12 +150,13 @@ if tickers:
     returns = df["Close"].pct_change().dropna()
 
     # -- Key metrics --------------------------------------
-    latest_close = float(df["Close"].iloc[-1])
-    total_return = float((df["Close"].iloc[-1] / df["Close"].iloc[0]) - 1)
-    volatility = float(df["Daily Return"].std())
-    ann_volatility = volatility * math.sqrt(252)  # Annualize: daily sigma * sqrt(trading days)
-    max_close = float(df["Close"].max())
-    min_close = float(df["Close"].min())
+    main_ticker = tickers[0]
+    latest_close = float(prices[main_ticker].iloc[-1])
+    total_return = float((prices[main_ticker].iloc[-1] / prices[main_ticker].iloc[0]) - 1)
+    volatility = float(prices[main_ticker].pct_change().std())
+    ann_volatility = volatility * np.sqrt(252)
+    max_close = float(prices[main_ticker].max())
+    min_close = float(prices[main_ticker].min())
 
     with tab1:
         
