@@ -129,11 +129,24 @@ def summary_stats(returns_df: pd.DataFrame) -> pd.DataFrame:
 if tickers:
     try:
         prices, bad_tickers = load_data(tickers, start_date, end_date)
-        df = pd.DataFrame({"Close": prices[tickers[0]]})
+
     except Exception as e:
         st.error(f"Failed to download data: {e}")
-        st.stop()   
+        st.stop()
 
+    # ✅ PUT IT HERE (AFTER try/except)
+    valid_tickers = [t for t in tickers if t in prices.columns]
+
+    if bad_tickers:
+        st.warning(f"These tickers could not be downloaded or had insufficient data: {', '.join(bad_tickers)}")
+
+    if len(valid_tickers) < 2:
+        st.error("Please enter at least 2 valid stock tickers.")
+        st.stop()
+
+if len(valid_tickers) < 2:
+    st.error("Please enter at least 2 valid stock tickers.")
+    st.stop()
     if df.empty:
         st.error(
             f"No data found for **{tickers[0]}**. "
