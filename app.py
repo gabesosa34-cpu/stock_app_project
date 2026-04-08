@@ -266,7 +266,7 @@ if tickers:
             )
 
         fig_vol.update_layout(
-            title="Rolling 30-Day Annualized Volatility",
+            title=f"Rolling {vol_window}-Day Annualized Volatility",
             xaxis_title="Date",
             yaxis_title="Volatility",
             template="plotly_white",
