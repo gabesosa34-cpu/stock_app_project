@@ -170,6 +170,7 @@ if tickers:
 
     max_close = float(main_prices.max())
     min_close = float(main_prices.min())
+    
     with tab1:
         
         st.subheader(f"{tickers[0]} — Key Metrics")
