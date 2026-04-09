@@ -173,7 +173,7 @@ if tickers:
     
     with tab1:
         
-        st.subheader(f"{tickers[1]} — Key Metrics")
+        st.subheader(f"{tickers[0]} — Key Metrics")
 
         col1, col2, col3 = st.columns(3)
         col1.metric("Latest Close", f"${latest_close:,.2f}")
