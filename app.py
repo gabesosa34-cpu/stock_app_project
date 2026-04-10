@@ -63,7 +63,7 @@ tickers_input = st.sidebar.text_input(
     value="AAPL,MSFT"
 ).upper()
 
-tickers = [t.strip() for t in tickers_input.split(",") if t.strip()]
+tickers = list(dict.fromkeys([t.strip() for t in tickers_input.split(",") if t.strip()]))
 
 # Default date range: one year back from today
 default_start = date.today() - timedelta(days=365)
