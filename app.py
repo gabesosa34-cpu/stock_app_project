@@ -9,9 +9,7 @@ import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
 from datetime import date, timedelta
-import math
 import numpy as np
-import plotly.express as px
 from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 
 # -- Page configuration ----------------------------------
@@ -527,7 +525,7 @@ if tickers:
         if stock_a == stock_b:
             st.warning("Please select two different stocks.")
             st.stop()
-            
+
         weight = st.slider("Weight on Stock A (%)", 0, 100, 50) / 100
 
         returns_df = prices[[stock_a, stock_b]].pct_change().dropna()
