@@ -506,6 +506,10 @@ if tickers:
         corr_stock_2 = st.selectbox("Select second stock", prices.columns, index=1, key="corr2")
         corr_window = st.selectbox("Rolling correlation window", [30, 60, 90], index=0)
 
+        if corr_stock_1 == corr_stock_2:
+            st.warning("Please select two different stocks for rolling correlation.")
+            st.stop()
+
         rolling_corr = (
             prices[[corr_stock_1, corr_stock_2]]
             .pct_change()
