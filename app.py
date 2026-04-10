@@ -13,6 +13,27 @@ import numpy as np
 from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 
 # -- Page configuration ----------------------------------
+st.set_page_config(
+    page_title="Stock Dashboard",
+    layout="wide"
+)
+
+# Custom red/black theme
+st.markdown("""
+<style>
+body {
+    background-color: #0e1117;
+    color: white;
+}
+h1, h2, h3 {
+    color: #ff4b4b;
+}
+.stButton>button {
+    background-color: #ff4b4b;
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
 # st.set_page_config must be the FIRST Streamlit command in the script.
 # If you add any other st.* calls above this line, you'll get an error.
 st.set_page_config(page_title="Stock Analyzer", layout="wide")
