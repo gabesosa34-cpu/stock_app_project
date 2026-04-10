@@ -19,7 +19,7 @@ from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
 # If you add any other st.* calls above this line, you'll get an error.
 st.set_page_config(page_title="Stock Analyzer", layout="wide")
 st.markdown("""
-    <h1 style='text-align: center; color: #0A84FF;'>
+    <h1 style='text-align: center; color: #FF3B30;'>
         Stock Performance & Risk Dashboard
     </h1>
     <p style='text-align: center; color: gray;'>
@@ -197,19 +197,20 @@ if tickers:
 
         fig = go.Figure()
 
-        for t in selected_stocks:
+        colors = ["#FF3B30", "#FF6B6B", "#FF8C42", "#FF2D55", "#C70039"]
+        for i, t in enumerate(selected_stocks):
             fig.add_trace(
                 go.Scatter(
                     x=prices.index,
                     y=prices[t],
                     mode="lines",
                     name=t,
-                    line=dict(width=1.5)
+                    line=dict(color=colors[i % len(colors)], width=2)
                 )
             )
         fig.update_layout(
             yaxis_title="Price (USD)", xaxis_title="Date",
-            template="plotly_white", height=450
+            template="plotly_dark", height=450
         )
         st.plotly_chart(fig, width="stretch")
 
