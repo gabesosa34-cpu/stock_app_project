@@ -509,8 +509,8 @@ if tickers:
         #TWO Asset -----------------------------------
         st.subheader("Two-Asset Portfolio Explorer")
 
-        stock_a = st.selectbox("Select Stock A", tickers, key="port_a")
-        stock_b = st.selectbox("Select Stock B", tickers, index=1, key="port_b")
+        stock_a = st.selectbox("Select Stock A", valid_tickers, key="port_a")
+        stock_b = st.selectbox("Select Stock B", valid_tickers, index=1, key="port_b")
 
         weight = st.slider("Weight on Stock A (%)", 0, 100, 50) / 100
 
