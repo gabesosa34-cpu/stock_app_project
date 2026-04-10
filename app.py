@@ -152,7 +152,7 @@ if tickers:
     if len(valid_tickers) < 2:
         st.error("Please enter at least 2 valid stock tickers.")
         st.stop()
-        
+
     if bad_tickers:
         st.warning(f"These tickers could not be downloaded or had insufficient data: {', '.join(bad_tickers)}")
 
@@ -524,7 +524,10 @@ if tickers:
 
         stock_a = st.selectbox("Select Stock A", valid_tickers, key="port_a")
         stock_b = st.selectbox("Select Stock B", valid_tickers, index=1, key="port_b")
-
+        if stock_a == stock_b:
+            st.warning("Please select two different stocks.")
+            st.stop()
+            
         weight = st.slider("Weight on Stock A (%)", 0, 100, 50) / 100
 
         returns_df = prices[[stock_a, stock_b]].pct_change().dropna()
