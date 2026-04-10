@@ -196,8 +196,17 @@ if tickers:
         )
 
         fig = go.Figure()
-
-        colors = ["#FF3B30", "#FF6B6B", "#FF8C42", "#FF2D55", "#C70039"]
+        colors = ["#FF3B30", "#0A84FF", "#34C759", "#FFFFFF", "#8E8E93"]
+        for i, t in enumerate(selected_stocks):
+            fig.add_trace(
+                go.Scatter(
+                    x=prices.index,
+                    y=prices[t],
+                    mode="lines",
+                    name=t,
+                    line=dict(color=colors[i % len(colors)], width=2)
+                )
+            )
         for i, t in enumerate(selected_stocks):
             fig.add_trace(
                 go.Scatter(
