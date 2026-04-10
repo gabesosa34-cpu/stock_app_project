@@ -152,14 +152,10 @@ if tickers:
     if len(valid_tickers) < 2:
         st.error("Please enter at least 2 valid stock tickers.")
         st.stop()
+        
     if bad_tickers:
         st.warning(f"These tickers could not be downloaded or had insufficient data: {', '.join(bad_tickers)}")
 
-    if len(valid_tickers) < 2:
-        st.error("Please enter at least 2 valid stock tickers.")
-        st.stop()
-
-    # Safe to use now
     df = pd.DataFrame({"Close": prices[valid_tickers[0]]})
 
     if df.empty:
