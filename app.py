@@ -528,6 +528,8 @@ if tickers:
             ((1 - w)**2) * cov_matrix.loc[stock_b, stock_b] +
             2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]
         )
+        st.write(f"Annualized Return: {portfolio_return:.2%}")
+        st.write(f"Annualized Volatility: {portfolio_vol:.2%}")
         weights = np.linspace(0, 1, 100)
         vols = []
 
@@ -569,6 +571,10 @@ if tickers:
         )
 
         st.plotly_chart(fig_port, width="stretch")
+        st.caption(
+            "This curve demonstrates diversification. When two stocks are not perfectly correlated, "
+            "combining them can reduce overall portfolio risk. The lower the correlation, the greater the benefit."
+        )
     with tab5:
         st.subheader("About This App")
 
