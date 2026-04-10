@@ -70,7 +70,7 @@ if (end_date - start_date).days < 365:
 # We wrap the download in st.cache_data so repeated runs with
 # the same inputs don't re-download every time. The ttl (time-to-live)
 # ensures the cache expires after one hour so data stays fresh.
-@st.cache_data(show_spinner="Fetching data...", ttl=3600)
+@st.cache_data(show_spinner="Fetching data...", ttl=300)
 def load_data(tickers: list[str], start: date, end: date):
     all_tickers = tickers + ["^GSPC"]
     price_dict = {}
