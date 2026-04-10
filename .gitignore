@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 # Virtual environment (managed by uv — don't upload to GitHub)
 .venv/
-
+.streamlit/
 # Python cache files
 __pycache__/
 *.pyc
