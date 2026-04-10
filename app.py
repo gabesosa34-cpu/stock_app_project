@@ -136,6 +136,22 @@ if tickers:
 
     valid_tickers = [t for t in tickers if t in prices.columns]
 
+    missing_pct = prices.isna().mean()
+    partial_cols = [col for col in prices.columns if 0 < missing_pct[col] <= 0.05 and col != "^GSPC"]
+    drop_cols = [col for col in prices.columns if missing_pct[col] > 0.05 and col != "^GSPC"]
+
+    if partial_cols:
+        st.info("Some tickers had partial data. Calculations use the overlapping available date range.")
+
+    if drop_cols:
+        st.warning(f"These tickers had too much missing data and were dropped: {', '.join(drop_cols)}")
+        prices = prices.drop(columns=drop_cols)
+
+    valid_tickers = [t for t in tickers if t in prices.columns]
+
+    if len(valid_tickers) < 2:
+        st.error("Please enter at least 2 valid stock tickers.")
+        st.stop()
     if bad_tickers:
         st.warning(f"These tickers could not be downloaded or had insufficient data: {', '.join(bad_tickers)}")
 
@@ -159,7 +175,7 @@ if tickers:
     returns = df["Close"].pct_change().dropna()
 
     # -- Key metrics --------------------------------------
-    main_ticker = tickers[0]
+    main_ticker = valid_tickers[0]
     main_prices = prices[main_ticker].dropna()
 
     latest_close = float(main_prices.iloc[-1])
@@ -173,7 +189,7 @@ if tickers:
     
     with tab1:
         
-        st.subheader(f"{tickers[0]} — Key Metrics")
+        st.subheader(f"{valid_tickers[0]} — Key Metrics")
 
         col1, col2, col3 = st.columns(3)
         col1.metric("Latest Close", f"${latest_close:,.2f}")
@@ -300,8 +316,9 @@ if tickers:
             "Select a stock for distribution analysis",
             options=[t for t in prices.columns if t != "^GSPC"]
         )
-
+        dist_view = st.radio("Select view", ["Histogram", "Q-Q Plot"], horizontal=True)
         #HIST -------------------------------------------------
+    if dist_view == "Histogram":
         r = prices[selected_stock].pct_change().dropna()
 
         # Fit normal distribution
@@ -350,7 +367,8 @@ if tickers:
             st.error("Rejects normality (p < 0.05)")
         else:
             st.success("Fails to reject normality (p >= 0.05)")
-        # QQ plot ---------------------------------------------    
+        # QQ plot ---------------------------------------------  
+    if dist_view == "Q-Q Plot":  
         st.subheader("Q-Q Plot")
 
         qq = probplot(r, dist="norm")
