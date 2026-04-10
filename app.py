@@ -196,7 +196,7 @@ if tickers:
         )
 
         fig = go.Figure()
-        colors = ["#FF3B30", "#0A84FF", "#34C759", "#FFFFFF", "#8E8E93"]
+        colors = ["#3A86FF", "#1E3A8A", "#FF3B30", "#F97316", "#9CA3AF"]
         for i, t in enumerate(selected_stocks):
             fig.add_trace(
                 go.Scatter(
