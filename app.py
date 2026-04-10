@@ -207,16 +207,6 @@ if tickers:
                     line=dict(color=colors[i % len(colors)], width=2)
                 )
             )
-        for i, t in enumerate(selected_stocks):
-            fig.add_trace(
-                go.Scatter(
-                    x=prices.index,
-                    y=prices[t],
-                    mode="lines",
-                    name=t,
-                    line=dict(color=colors[i % len(colors)], width=2)
-                )
-            )
         fig.update_layout(
             yaxis_title="Price (USD)", xaxis_title="Date",
             template="plotly_dark", height=450
