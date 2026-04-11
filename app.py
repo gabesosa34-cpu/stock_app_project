@@ -36,7 +36,7 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 # st.set_page_config must be the FIRST Streamlit command in the script.
 # If you add any other st.* calls above this line, you'll get an error.
-st.set_page_config(page_title="Stock Analyzer", layout="wide")
+
 st.markdown("""
     <h1 style='text-align: center; color: #FF3B30;'>
         Stock Performance & Risk Dashboard
