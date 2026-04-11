@@ -494,7 +494,10 @@ if tickers:
 
         stock_x = st.selectbox("Select X-axis stock", prices.columns, index=0)
         stock_y = st.selectbox("Select Y-axis stock", prices.columns, index=1)
-
+        if stock_x == stock_y:
+            st.warning("Please select two different stocks for the scatter plot.")
+            st.stop()
+            
         scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
 
         fig_scatter = go.Figure()
