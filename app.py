@@ -288,7 +288,7 @@ if tickers:
             title="Cumulative Wealth (Normalized to $10,000)",
             xaxis_title="Date",
             yaxis_title="Portfolio Value ($)",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -332,7 +332,7 @@ if tickers:
             title=f"Rolling {vol_window}-Day Annualized Volatility",
             xaxis_title="Date",
             yaxis_title="Volatility",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -392,7 +392,7 @@ if tickers:
             title=f"{selected_stock} Return Distribution",
             xaxis_title="Daily Return",
             yaxis_title="Density",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -430,7 +430,7 @@ if tickers:
             title=f"{selected_stock} Q-Q Plot",
             xaxis_title="Theoretical Quantiles",
             yaxis_title="Sample Quantiles",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -458,7 +458,7 @@ if tickers:
             title="Daily Return Distributions",
             yaxis_title="Daily Return",
             xaxis_title="Stocks",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -516,7 +516,7 @@ if tickers:
             title=f"{stock_x} vs {stock_y} Daily Returns",
             xaxis_title=stock_x,
             yaxis_title=stock_y,
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -559,7 +559,7 @@ if tickers:
             title=f"Rolling {corr_window}-Day Correlation: {corr_stock_1} vs {corr_stock_2}",
             xaxis_title="Date",
             yaxis_title="Correlation",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
@@ -627,7 +627,7 @@ if tickers:
             title="Portfolio Volatility vs Weight",
             xaxis_title="Weight on Stock A",
             yaxis_title="Volatility",
-            template="plotly_white",
+            template="plotly_dark",
             height=500
         )
 
