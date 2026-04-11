@@ -296,13 +296,23 @@ if tickers:
 
     with tab3:
 
-    # =========================
-    # Rolling Volatility
-    # =========================
+        risk_stocks = st.multiselect(
+            "Select stocks to display in Risk Analysis",
+            options=[t for t in prices.columns if t != "^GSPC"],
+            default=[t for t in prices.columns if t != "^GSPC"]
+        )
+
+        if not risk_stocks:
+            st.warning("Please select at least one stock.")
+            st.stop()
+
+        # =========================
+        # Rolling Volatility
+        # =========================
         vol_window = st.selectbox("Rolling volatility window", [30, 60, 90], index=0)
 
         st.subheader(f"Rolling Volatility ({vol_window}-Day)")
-        returns_df = prices.pct_change().dropna()
+        returns_df = prices[risk_stocks + (["^GSPC"] if "^GSPC" in prices.columns else [])].pct_change().dropna()
 
         rolling_vol = returns_df.rolling(vol_window).std() * np.sqrt(252)
 
@@ -335,12 +345,11 @@ if tickers:
 
         selected_stock = st.selectbox(
             "Select a stock for distribution analysis",
-            options=[t for t in prices.columns if t != "^GSPC"]
+            options=risk_stocks
         )
 
         r = prices[selected_stock].pct_change().dropna()
 
-        # --- Jarque-Bera Test ---
         jb_stat, jb_p = jarque_bera(r)
 
         st.write(f"**Jarque-Bera Statistic:** {jb_stat:.4f}")
@@ -351,9 +360,7 @@ if tickers:
         else:
             st.success("Fails to reject normality (p >= 0.05)")
 
-        # =========================
         # Histogram
-        # =========================
         st.subheader("Histogram of Returns")
 
         mu, sigma = norm.fit(r)
@@ -390,9 +397,7 @@ if tickers:
 
         st.plotly_chart(fig_hist, width="stretch")
 
-        # =========================
         # Q-Q Plot
-        # =========================
         st.subheader("Q-Q Plot")
 
         qq = probplot(r, dist="norm")
@@ -434,7 +439,7 @@ if tickers:
         # =========================
         st.subheader("Box Plot of Daily Returns")
 
-        box_returns = prices[[t for t in prices.columns if t != "^GSPC"]].pct_change().dropna()
+        box_returns = prices[risk_stocks].pct_change().dropna()
 
         fig_box = go.Figure()
 
