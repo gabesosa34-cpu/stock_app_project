@@ -295,6 +295,8 @@ if tickers:
         st.plotly_chart(fig_wealth, width="stretch")
 
     with tab3:
+        
+        dist_view = st.radio("Select view", ["Histogram", "Q-Q Plot"], horizontal=True)
 
         risk_stocks = st.multiselect(
             "Select stocks to display in Risk Analysis",
@@ -361,78 +363,82 @@ if tickers:
             st.success("Fails to reject normality (p >= 0.05)")
 
         # Histogram
-        st.subheader("Histogram of Returns")
+        if dist_view == "Histogram":
 
-        mu, sigma = norm.fit(r)
-        x_vals = np.linspace(r.min(), r.max(), 300)
-        y_vals = norm.pdf(x_vals, mu, sigma)
+            st.subheader("Histogram of Returns")
 
-        fig_hist = go.Figure()
+            mu, sigma = norm.fit(r)
+            x_vals = np.linspace(r.min(), r.max(), 300)
+            y_vals = norm.pdf(x_vals, mu, sigma)
 
-        fig_hist.add_trace(
-            go.Histogram(
-                x=r,
-                histnorm="probability density",
-                name="Returns",
-                opacity=0.6
+            fig_hist = go.Figure()
+
+            fig_hist.add_trace(
+                go.Histogram(
+                    x=r,
+                    histnorm="probability density",
+                    name="Returns",
+                    opacity=0.6
+                )
             )
-        )
 
-        fig_hist.add_trace(
-            go.Scatter(
-                x=x_vals,
-                y=y_vals,
-                mode="lines",
-                name="Normal Distribution Fit"
+            fig_hist.add_trace(
+                go.Scatter(
+                    x=x_vals,
+                    y=y_vals,
+                    mode="lines",
+                    name="Normal Distribution Fit"
+                )
             )
-        )
 
-        fig_hist.update_layout(
-            title=f"{selected_stock} Return Distribution",
-            xaxis_title="Daily Return",
-            yaxis_title="Density",
-            template="plotly_white",
-            height=500
-        )
+            fig_hist.update_layout(
+                title=f"{selected_stock} Return Distribution",
+                xaxis_title="Daily Return",
+                yaxis_title="Density",
+                template="plotly_white",
+                height=500
+            )
 
-        st.plotly_chart(fig_hist, width="stretch")
+            st.plotly_chart(fig_hist, width="stretch")
 
         # Q-Q Plot
-        st.subheader("Q-Q Plot")
+        if dist_view == "Q-Q Plot":
 
-        qq = probplot(r, dist="norm")
-        theoretical = qq[0][0]
-        ordered = qq[0][1]
+            st.subheader("Q-Q Plot")
 
-        fig_qq = go.Figure()
+            qq = probplot(r, dist="norm")
+            theoretical = qq[0][0]
+            ordered = qq[0][1]
 
-        fig_qq.add_trace(
-            go.Scatter(
-                x=theoretical,
-                y=ordered,
-                mode="markers",
-                name="Q-Q Points"
+            fig_qq = go.Figure()
+
+            fig_qq.add_trace(
+                go.Scatter(
+                    x=theoretical,
+                    y=ordered,
+                    mode="markers",
+                    name="Q-Q Points"
+                )
             )
-        )
 
-        fig_qq.add_trace(
-            go.Scatter(
-                x=theoretical,
-                y=theoretical,
-                mode="lines",
-                name="45° Line"
+            fig_qq.add_trace(
+                go.Scatter(
+                    x=theoretical,
+                    y=theoretical,
+                    mode="lines",
+                    name="45° Line"
+                )
             )
-        )
 
-        fig_qq.update_layout(
-            title=f"{selected_stock} Q-Q Plot",
-            xaxis_title="Theoretical Quantiles",
-            yaxis_title="Sample Quantiles",
-            template="plotly_white",
-            height=500
-        )
+            fig_qq.update_layout(
+                title=f"{selected_stock} Q-Q Plot",
+                xaxis_title="Theoretical Quantiles",
+                yaxis_title="Sample Quantiles",
+                template="plotly_white",
+                height=500
+            )
 
-        st.plotly_chart(fig_qq, width="stretch")
+            st.plotly_chart(fig_qq, width="stretch")
 
         # =========================
         # Box Plot
@@ -497,7 +503,7 @@ if tickers:
         if stock_x == stock_y:
             st.warning("Please select two different stocks for the scatter plot.")
             st.stop()
-            
+
         scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
 
         fig_scatter = go.Figure()
