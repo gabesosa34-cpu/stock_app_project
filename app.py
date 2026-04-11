@@ -295,7 +295,10 @@ if tickers:
         st.plotly_chart(fig_wealth, width="stretch")
 
     with tab3:
-        #ROLL VOL ---------------------------------
+
+    # =========================
+    # Rolling Volatility
+    # =========================
         vol_window = st.selectbox("Rolling volatility window", [30, 60, 90], index=0)
 
         st.subheader(f"Rolling Volatility ({vol_window}-Day)")
@@ -325,6 +328,9 @@ if tickers:
 
         st.plotly_chart(fig_vol, width="stretch")
 
+        # =========================
+        # Return Distribution
+        # =========================
         st.subheader("Return Distribution")
 
         selected_stock = st.selectbox(
@@ -334,6 +340,7 @@ if tickers:
 
         r = prices[selected_stock].pct_change().dropna()
 
+        # --- Jarque-Bera Test ---
         jb_stat, jb_p = jarque_bera(r)
 
         st.write(f"**Jarque-Bera Statistic:** {jb_stat:.4f}")
@@ -344,10 +351,12 @@ if tickers:
         else:
             st.success("Fails to reject normality (p >= 0.05)")
 
+        # =========================
+        # Histogram
+        # =========================
         st.subheader("Histogram of Returns")
 
         mu, sigma = norm.fit(r)
-
         x_vals = np.linspace(r.min(), r.max(), 300)
         y_vals = norm.pdf(x_vals, mu, sigma)
 
@@ -381,6 +390,9 @@ if tickers:
 
         st.plotly_chart(fig_hist, width="stretch")
 
+        # =========================
+        # Q-Q Plot
+        # =========================
         st.subheader("Q-Q Plot")
 
         qq = probplot(r, dist="norm")
@@ -417,6 +429,33 @@ if tickers:
 
         st.plotly_chart(fig_qq, width="stretch")
 
+        # =========================
+        # Box Plot
+        # =========================
+        st.subheader("Box Plot of Daily Returns")
+
+        box_returns = prices[[t for t in prices.columns if t != "^GSPC"]].pct_change().dropna()
+
+        fig_box = go.Figure()
+
+        for col in box_returns.columns:
+            fig_box.add_trace(
+                go.Box(
+                    y=box_returns[col],
+                    name=col,
+                    boxmean=True
+                )
+            )
+
+        fig_box.update_layout(
+            title="Daily Return Distributions",
+            yaxis_title="Daily Return",
+            xaxis_title="Stocks",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_box, width="stretch")
     with tab4:
         #COR ----------------------------------
         st.subheader("Correlation Matrix")
