@@ -332,8 +332,6 @@ if tickers:
             options=[t for t in prices.columns if t != "^GSPC"]
         )
 
-        dist_view = st.radio("Select view", ["Histogram", "Q-Q Plot"], horizontal=True)
-
         r = prices[selected_stock].pct_change().dropna()
 
         jb_stat, jb_p = jarque_bera(r)
@@ -346,103 +344,78 @@ if tickers:
         else:
             st.success("Fails to reject normality (p >= 0.05)")
 
-        if dist_view == "Histogram":
-            mu, sigma = norm.fit(r)
+        st.subheader("Histogram of Returns")
 
-            x_vals = np.linspace(r.min(), r.max(), 300)
-            y_vals = norm.pdf(x_vals, mu, sigma)
+        mu, sigma = norm.fit(r)
 
-            fig_hist = go.Figure()
+        x_vals = np.linspace(r.min(), r.max(), 300)
+        y_vals = norm.pdf(x_vals, mu, sigma)
 
-            fig_hist.add_trace(
-                go.Histogram(
-                    x=r,
-                    histnorm="probability density",
-                    name="Returns",
-                    opacity=0.6
-                )
+        fig_hist = go.Figure()
+
+        fig_hist.add_trace(
+            go.Histogram(
+                x=r,
+                histnorm="probability density",
+                name="Returns",
+                opacity=0.6
             )
+        )
 
-            fig_hist.add_trace(
-                go.Scatter(
-                    x=x_vals,
-                    y=y_vals,
-                    mode="lines",
-                    name="Normal Distribution Fit"
-                )
+        fig_hist.add_trace(
+            go.Scatter(
+                x=x_vals,
+                y=y_vals,
+                mode="lines",
+                name="Normal Distribution Fit"
             )
+        )
 
-            fig_hist.update_layout(
-                title=f"{selected_stock} Return Distribution",
-                xaxis_title="Daily Return",
-                yaxis_title="Density",
-                template="plotly_white",
-                height=500
-            )
-
-            st.plotly_chart(fig_hist, width="stretch")
-
-        if dist_view == "Q-Q Plot":
-            st.subheader("Q-Q Plot")
-
-            qq = probplot(r, dist="norm")
-            theoretical = qq[0][0]
-            ordered = qq[0][1]
-
-            fig_qq = go.Figure()
-
-            fig_qq.add_trace(
-                go.Scatter(
-                    x=theoretical,
-                    y=ordered,
-                    mode="markers",
-                    name="Q-Q Points"
-                )
-            )
-
-            fig_qq.add_trace(
-                go.Scatter(
-                    x=theoretical,
-                    y=theoretical,
-                    mode="lines",
-                    name="45° Line"
-                )
-            )
-
-            fig_qq.update_layout(
-                title=f"{selected_stock} Q-Q Plot",
-                xaxis_title="Theoretical Quantiles",
-                yaxis_title="Sample Quantiles",
-                template="plotly_white",
-                height=500
-            )
-
-            st.plotly_chart(fig_qq, width="stretch")
-
-        st.subheader("Box Plot of Daily Returns")
-
-        box_returns = prices[[t for t in prices.columns if t != "^GSPC"]].pct_change().dropna()
-
-        fig_box = go.Figure()
-
-        for col in box_returns.columns:
-            fig_box.add_trace(
-                go.Box(
-                    y=box_returns[col],
-                    name=col,
-                    boxmean=True
-                )
-            )
-
-        fig_box.update_layout(
-            title="Daily Return Distributions",
-            yaxis_title="Daily Return",
-            xaxis_title="Stocks",
+        fig_hist.update_layout(
+            title=f"{selected_stock} Return Distribution",
+            xaxis_title="Daily Return",
+            yaxis_title="Density",
             template="plotly_white",
             height=500
         )
 
-        st.plotly_chart(fig_box, width="stretch")
+        st.plotly_chart(fig_hist, width="stretch")
+
+        st.subheader("Q-Q Plot")
+
+        qq = probplot(r, dist="norm")
+        theoretical = qq[0][0]
+        ordered = qq[0][1]
+
+        fig_qq = go.Figure()
+
+        fig_qq.add_trace(
+            go.Scatter(
+                x=theoretical,
+                y=ordered,
+                mode="markers",
+                name="Q-Q Points"
+            )
+        )
+
+        fig_qq.add_trace(
+            go.Scatter(
+                x=theoretical,
+                y=theoretical,
+                mode="lines",
+                name="45° Line"
+            )
+        )
+
+        fig_qq.update_layout(
+            title=f"{selected_stock} Q-Q Plot",
+            xaxis_title="Theoretical Quantiles",
+            yaxis_title="Sample Quantiles",
+            template="plotly_white",
+            height=500
+        )
+
+        st.plotly_chart(fig_qq, width="stretch")
 
     with tab4:
         #COR ----------------------------------
