@@ -129,14 +129,22 @@ def style_figure(fig: go.Figure, height: int = 500):
         plot_bgcolor="#ffffff",
         margin=dict(l=30, r=20, t=70, b=30),
         legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            x=0,
+            orientation="v",
+            yanchor="top",
+            y=0.98,
+            xanchor="left",
+            x=1.02,
             font=dict(size=11),
             bgcolor="rgba(255,255,255,0.85)",
         ),
         font=dict(color="#18324f"),
+        title=dict(
+            x=0.02,
+            xanchor="left",
+            y=0.97,
+            yanchor="top",
+            font=dict(size=18, color="#18324f"),
+        ),
     )
     fig.update_xaxes(showgrid=False, color="#48627e")
     fig.update_yaxes(gridcolor="rgba(24,50,79,.10)", color="#48627e")
