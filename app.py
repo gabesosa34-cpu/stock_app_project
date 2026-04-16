@@ -35,9 +35,10 @@ st.markdown(
     .stMetric{background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(241,247,255,.95));border:1px solid rgba(66,94,136,.16);padding:.7rem;border-radius:16px}
     .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#10243d !important}
     .stButton>button{background:linear-gradient(135deg,#18a999,#0e7b6c);color:#fff;border-radius:999px;border:none}
-    .stTabs [data-baseweb="tab-list"]{gap:.35rem}
+    .stTabs [data-baseweb="tab-list"]{gap:.35rem;border-bottom:none}
     .stTabs [data-baseweb="tab"]{background:rgba(255,255,255,.60);border:1px solid rgba(66,94,136,.16);border-radius:12px;color:#314b68}
     .stTabs [aria-selected="true"]{background:#ffffff !important;color:#0f223a !important}
+    .stTabs [data-baseweb="tab-highlight"]{display:none !important}
     .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#18324f !important;font-weight:600}
     .stCaption,.stMarkdown,.stText{color:#18324f}
     [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#fff !important;border:1px solid rgba(66,94,136,.20) !important;color:#10243d !important}
@@ -61,7 +62,7 @@ st.markdown(
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["Market View", "Performance", "Risk Analysis", "Relationships", "About"])
 
 st.sidebar.header("Control Center")
-tickers_input = st.sidebar.text_input("Enter 2 to 5 stock tickers", value="AAPL,MSFT,NVDA").upper()
+tickers_input = st.sidebar.text_input("Enter 2 to 5 stock tickers", value="", placeholder="AAPL, MSFT, NVDA").upper()
 tickers = list(dict.fromkeys([t.strip() for t in tickers_input.split(",") if t.strip()]))
 default_start = date.today() - timedelta(days=365 * 2)
 start_date = st.sidebar.date_input("Start Date", value=default_start, min_value=date(1970, 1, 1))
@@ -72,6 +73,9 @@ show_benchmark = st.sidebar.toggle("Show S&P 500 benchmark", value=True)
 
 if start_date >= end_date:
     st.sidebar.error("Start date must be before end date.")
+    st.stop()
+if not tickers:
+    st.info("Enter 2 to 5 stock tickers in the sidebar to get started.")
     st.stop()
 if len(tickers) < 2 or len(tickers) > 5:
     st.sidebar.error("Please enter between 2 and 5 stock tickers.")
