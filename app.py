@@ -18,20 +18,30 @@ st.set_page_config(page_title="PulseQuant Dashboard", layout="wide")
 st.markdown(
     """
     <style>
-    .stApp{background:radial-gradient(circle at top left,rgba(79,209,197,.14),transparent 28%),radial-gradient(circle at top right,rgba(255,107,107,.12),transparent 24%),linear-gradient(180deg,#030b16 0%,#07111f 55%,#0b1627 100%);color:#e9f1ff}
-    [data-testid="stSidebar"]{background:linear-gradient(180deg,rgba(7,17,31,.98),rgba(9,20,36,.98));border-right:1px solid rgba(143,173,217,.18)}
-    .hero,.section-card,.mini-card{border:1px solid rgba(143,173,217,.18);background:linear-gradient(180deg,rgba(12,28,47,.95),rgba(7,18,34,.88))}
-    .hero{padding:1.35rem 1.6rem;border-radius:24px;box-shadow:0 18px 50px rgba(0,0,0,.25);margin-bottom:1rem}
+    .stApp{background:radial-gradient(circle at top left,rgba(79,209,197,.12),transparent 30%),radial-gradient(circle at top right,rgba(90,169,255,.10),transparent 24%),linear-gradient(180deg,#edf4ff 0%,#dfeaf8 55%,#d6e5f6 100%);color:#0f223a}
+    [data-testid="stHeader"]{background:rgba(0,0,0,0)}
+    [data-testid="stSidebar"]{background:linear-gradient(180deg,#dbe9f8,#cfdef0);border-right:1px solid rgba(66,94,136,.20)}
+    [data-testid="stSidebar"] *{color:#11263f !important}
+    .hero,.section-card,.mini-card{border:1px solid rgba(66,94,136,.18);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(240,247,255,.94))}
+    .hero{padding:1.35rem 1.6rem;border-radius:24px;box-shadow:0 18px 50px rgba(35,55,95,.12);margin-bottom:1rem}
     .section-card{padding:1rem 1.1rem;border-radius:20px;margin-bottom:1rem}
     .mini-card{padding:.9rem 1rem;border-radius:18px;min-height:110px}
-    .kicker{color:#4fd1c5;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:700}
-    .title{font-size:2.2rem;font-weight:800;margin:.2rem 0;color:#e9f1ff}
-    .copy,.mini-note{color:#8ea4c7}
-    .mini-label{font-size:.78rem;color:#8ea4c7;text-transform:uppercase;letter-spacing:.1em}
-    .mini-value{font-size:1.8rem;font-weight:800;color:#e9f1ff}
-    .insight{border-left:4px solid #4fd1c5;background:rgba(79,209,197,.08);padding:.85rem 1rem;border-radius:14px;color:#e9f1ff;margin-bottom:1rem}
-    .stMetric{background:linear-gradient(180deg,rgba(11,22,38,.9),rgba(8,16,29,.95));border:1px solid rgba(143,173,217,.18);padding:.7rem;border-radius:16px}
+    .kicker{color:#0f8b8d;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:700}
+    .title{font-size:2.2rem;font-weight:800;margin:.2rem 0;color:#10243d}
+    .copy,.mini-note{color:#45607e}
+    .mini-label{font-size:.78rem;color:#58718f;text-transform:uppercase;letter-spacing:.1em}
+    .mini-value{font-size:1.8rem;font-weight:800;color:#10243d}
+    .insight{border-left:4px solid #0f8b8d;background:rgba(15,139,141,.10);padding:.85rem 1rem;border-radius:14px;color:#12314d;margin-bottom:1rem}
+    .stMetric{background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(241,247,255,.95));border:1px solid rgba(66,94,136,.16);padding:.7rem;border-radius:16px}
+    .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#10243d !important}
     .stButton>button{background:linear-gradient(135deg,#18a999,#0e7b6c);color:#fff;border-radius:999px;border:none}
+    .stTabs [data-baseweb="tab-list"]{gap:.35rem}
+    .stTabs [data-baseweb="tab"]{background:rgba(255,255,255,.60);border:1px solid rgba(66,94,136,.16);border-radius:12px;color:#314b68}
+    .stTabs [aria-selected="true"]{background:#ffffff !important;color:#0f223a !important}
+    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#18324f !important;font-weight:600}
+    .stCaption,.stMarkdown,.stText{color:#18324f}
+    [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#fff !important;border:1px solid rgba(66,94,136,.20) !important;color:#10243d !important}
+    [data-baseweb="tag"]{background:#e8f3ff !important;color:#12314d !important;border:1px solid rgba(66,94,136,.18)}
     </style>
     """,
     unsafe_allow_html=True,
