@@ -52,7 +52,7 @@ st.markdown(
 st.markdown(
     """
     <div class="hero">
-      <div class="kicker">Stock Dashboard</div>
+      <div class="kicker">PulseQuant Dashboard</div>
       <div class="title">Stock Performance and Risk Dashboard</div>
       <div class="copy">Compare names, benchmark against the S&amp;P 500, and explore risk with a cleaner modern market dashboard.</div>
     </div>
