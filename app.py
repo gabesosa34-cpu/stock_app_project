@@ -138,13 +138,11 @@ def style_figure(fig: go.Figure, height: int = 500):
             bgcolor="rgba(255,255,255,0.85)",
         ),
         font=dict(color="#18324f"),
-        title=dict(
-            x=0.02,
-            xanchor="left",
-            y=0.97,
-            yanchor="top",
-            font=dict(size=18, color="#18324f"),
-        ),
+        title_x=0.02,
+        title_xanchor="left",
+        title_y=0.97,
+        title_yanchor="top",
+        title_font=dict(size=18, color="#18324f"),
     )
     fig.update_xaxes(showgrid=False, color="#48627e")
     fig.update_yaxes(gridcolor="rgba(24,50,79,.10)", color="#48627e")
@@ -217,7 +215,7 @@ with tab1:
 
     selected_stocks = st.multiselect("Select stocks to display", options=display_columns, default=display_columns)
     if selected_stocks:
-        fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08, row_heights=[0.72, 0.28], subplot_titles=("Price and Trend", "Drawdown"))
+        fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08, row_heights=[0.72, 0.28])
         palette = ["#4fd1c5", "#ff6b6b", "#ffd166", "#5aa9ff", "#c084fc", "#9be564"]
         for i, ticker in enumerate(selected_stocks):
             color = palette[i % len(palette)]
@@ -228,6 +226,7 @@ with tab1:
             if ticker == main_ticker:
                 fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_short).mean(), mode="lines", name=f"{ticker} {ma_short}D MA", line=dict(color="#8ea4c7", width=1.8, dash="dot")), row=1, col=1)
                 fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_long).mean(), mode="lines", name=f"{ticker} {ma_long}D MA", line=dict(color="#ffd166", width=1.8, dash="dash")), row=1, col=1)
+        fig.update_layout(title="Price and Drawdown")
         fig.update_yaxes(title_text="Price (USD)", row=1, col=1)
         fig.update_yaxes(title_text="Drawdown", tickformat=".0%", row=2, col=1)
         fig.update_xaxes(title_text="Date", row=2, col=1)
