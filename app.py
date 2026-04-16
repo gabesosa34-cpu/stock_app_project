@@ -18,31 +18,32 @@ st.set_page_config(page_title="PulseQuant Dashboard", layout="wide")
 st.markdown(
     """
     <style>
-    .stApp{background:radial-gradient(circle at top left,rgba(79,209,197,.12),transparent 30%),radial-gradient(circle at top right,rgba(90,169,255,.10),transparent 24%),linear-gradient(180deg,#edf4ff 0%,#dfeaf8 55%,#d6e5f6 100%);color:#0f223a}
+    .stApp{background:radial-gradient(circle at top left,rgba(15,118,110,.10),transparent 26%),radial-gradient(circle at top right,rgba(249,115,22,.08),transparent 22%),linear-gradient(180deg,#f8fafc 0%,#eef2f7 52%,#e5ebf3 100%);color:#172033}
     [data-testid="stHeader"]{background:rgba(0,0,0,0)}
-    [data-testid="stSidebar"]{background:linear-gradient(180deg,#dbe9f8,#cfdef0);border-right:1px solid rgba(66,94,136,.20)}
-    [data-testid="stSidebar"] *{color:#11263f !important}
-    .hero,.section-card,.mini-card{border:1px solid rgba(66,94,136,.18);background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(240,247,255,.94))}
-    .hero{padding:1.35rem 1.6rem;border-radius:24px;box-shadow:0 18px 50px rgba(35,55,95,.12);margin-bottom:1rem}
-    .section-card{padding:1rem 1.1rem;border-radius:20px;margin-bottom:1rem}
-    .mini-card{padding:.9rem 1rem;border-radius:18px;min-height:110px}
-    .kicker{color:#0f8b8d;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:700}
-    .title{font-size:2.2rem;font-weight:800;margin:.2rem 0;color:#10243d}
-    .copy,.mini-note{color:#45607e}
-    .mini-label{font-size:.78rem;color:#58718f;text-transform:uppercase;letter-spacing:.1em}
-    .mini-value{font-size:1.8rem;font-weight:800;color:#10243d}
-    .insight{border-left:4px solid #0f8b8d;background:rgba(15,139,141,.10);padding:.85rem 1rem;border-radius:14px;color:#12314d;margin-bottom:1rem}
-    .stMetric{background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(241,247,255,.95));border:1px solid rgba(66,94,136,.16);padding:.7rem;border-radius:16px}
-    .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#10243d !important}
-    .stButton>button{background:linear-gradient(135deg,#18a999,#0e7b6c);color:#fff;border-radius:999px;border:none}
+    [data-testid="stSidebar"]{background:linear-gradient(180deg,#f4f7fb,#e9eef6);border-right:1px solid rgba(87,107,139,.18)}
+    [data-testid="stSidebar"] *{color:#18263d !important}
+    .hero,.section-card,.mini-card{border:1px solid rgba(87,107,139,.14);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(246,248,252,.98))}
+    .hero{padding:1.5rem 1.7rem;border-radius:28px;box-shadow:0 24px 60px rgba(28,39,60,.10);margin-bottom:1.1rem;position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:auto -8% -45% auto;width:260px;height:260px;background:radial-gradient(circle,rgba(15,118,110,.14),transparent 66%)}
+    .section-card{padding:1rem 1.1rem;border-radius:22px;margin-bottom:1rem;box-shadow:0 10px 28px rgba(28,39,60,.05)}
+    .mini-card{padding:1rem 1.05rem;border-radius:20px;min-height:110px;box-shadow:0 10px 28px rgba(28,39,60,.05)}
+    .kicker{color:#0f766e;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:800}
+    .title{font-size:2.35rem;font-weight:900;margin:.2rem 0;color:#172033;line-height:1.05}
+    .copy,.mini-note{color:#5e6b82}
+    .mini-label{font-size:.78rem;color:#6e7c93;text-transform:uppercase;letter-spacing:.11em}
+    .mini-value{font-size:1.8rem;font-weight:900;color:#172033}
+    .insight{border-left:4px solid #0f766e;background:linear-gradient(90deg,rgba(15,118,110,.10),rgba(15,118,110,.04));padding:.95rem 1rem;border-radius:16px;color:#18314c;margin-bottom:1rem}
+    .stMetric{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(245,247,251,.98));border:1px solid rgba(87,107,139,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(28,39,60,.05)}
+    .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#172033 !important}
+    .stButton>button{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(15,118,110,.22)}
     .stTabs [data-baseweb="tab-list"]{gap:.35rem;border-bottom:none}
-    .stTabs [data-baseweb="tab"]{background:rgba(255,255,255,.60);border:1px solid rgba(66,94,136,.16);border-radius:12px;color:#314b68}
-    .stTabs [aria-selected="true"]{background:#ffffff !important;color:#0f223a !important}
+    .stTabs [data-baseweb="tab"]{background:rgba(255,255,255,.72);border:1px solid rgba(87,107,139,.14);border-radius:14px;color:#4f5d73;font-weight:600}
+    .stTabs [aria-selected="true"]{background:#ffffff !important;color:#172033 !important;box-shadow:0 8px 22px rgba(28,39,60,.08)}
     .stTabs [data-baseweb="tab-highlight"]{display:none !important}
-    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#18324f !important;font-weight:600}
-    .stCaption,.stMarkdown,.stText{color:#18324f}
-    [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#fff !important;border:1px solid rgba(66,94,136,.20) !important;color:#10243d !important}
-    [data-baseweb="tag"]{background:#e8f3ff !important;color:#12314d !important;border:1px solid rgba(66,94,136,.18)}
+    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#21314c !important;font-weight:700}
+    .stCaption,.stMarkdown,.stText{color:#21314c}
+    [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#fff !important;border:1px solid rgba(87,107,139,.16) !important;color:#172033 !important;border-radius:14px !important;box-shadow:0 6px 18px rgba(28,39,60,.04)}
+    [data-baseweb="tag"]{background:#ecfdf5 !important;color:#14532d !important;border:1px solid rgba(16,185,129,.18)}
     </style>
     """,
     unsafe_allow_html=True,
@@ -51,9 +52,9 @@ st.markdown(
 st.markdown(
     """
     <div class="hero">
-      <div class="kicker">PulseQuant Terminal</div>
+      <div class="kicker">PulseQuant Workspace</div>
       <div class="title">Stock Performance and Risk Dashboard</div>
-      <div class="copy">Benchmark stocks against the S&amp;P 500, inspect return behavior, and surface risk with a more polished trading-desk feel.</div>
+      <div class="copy">Compare names, benchmark against the S&amp;P 500, and explore risk with a cleaner modern market dashboard.</div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -174,6 +175,7 @@ if bad_tickers:
 benchmark_col = "^GSPC" if "^GSPC" in prices.columns else None
 display_columns = valid_tickers + ([benchmark_col] if benchmark_col and show_benchmark else [])
 display_name_map = {"^GSPC": "S&P 500", "Equal-Weight Portfolio": "Equal-Weight"}
+chart_palette = ["#0f766e", "#2563eb", "#f97316", "#7c3aed", "#dc2626", "#0891b2"]
 main_ticker = valid_tickers[0]
 main_prices = prices[main_ticker].dropna()
 main_returns = main_prices.pct_change().dropna()
@@ -220,16 +222,15 @@ with tab1:
     selected_stocks = st.multiselect("Select stocks to display", options=display_columns, default=display_columns)
     if selected_stocks:
         fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08, row_heights=[0.72, 0.28])
-        palette = ["#4fd1c5", "#ff6b6b", "#ffd166", "#5aa9ff", "#c084fc", "#9be564"]
         for i, ticker in enumerate(selected_stocks):
-            color = palette[i % len(palette)]
+            color = chart_palette[i % len(chart_palette)]
             s = prices[ticker].dropna()
             fig.add_trace(go.Scatter(x=s.index, y=s, mode="lines", name=ticker, line=dict(color=color, width=2.4)), row=1, col=1)
             dd = compute_drawdown(s)
-            fig.add_trace(go.Scatter(x=dd.index, y=dd, mode="lines", name=f"{ticker} Drawdown", line=dict(color=color, width=1.5), showlegend=False, fill="tozeroy"), row=2, col=1)
+            fig.add_trace(go.Scatter(x=dd.index, y=dd, mode="lines", name=f"{ticker} Drawdown", line=dict(color=color, width=1.5), showlegend=False, fill="tozeroy", fillcolor=f"rgba({int(color[1:3],16)},{int(color[3:5],16)},{int(color[5:7],16)},0.22)"), row=2, col=1)
             if ticker == main_ticker:
-                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_short).mean(), mode="lines", name=f"{ticker} {ma_short}D MA", line=dict(color="#8ea4c7", width=1.8, dash="dot")), row=1, col=1)
-                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_long).mean(), mode="lines", name=f"{ticker} {ma_long}D MA", line=dict(color="#ffd166", width=1.8, dash="dash")), row=1, col=1)
+                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_short).mean(), mode="lines", name=f"{ticker} {ma_short}D MA", line=dict(color="#64748b", width=1.8, dash="dot")), row=1, col=1)
+                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_long).mean(), mode="lines", name=f"{ticker} {ma_long}D MA", line=dict(color="#f59e0b", width=1.8, dash="dash")), row=1, col=1)
         fig.update_layout(title="Price and Drawdown")
         fig.update_yaxes(title_text="Price (USD)", row=1, col=1)
         fig.update_yaxes(title_text="Drawdown", tickformat=".0%", row=2, col=1)
@@ -240,7 +241,7 @@ with tab1:
         norm_df = prices[selected_stocks].apply(lambda col: col / col.dropna().iloc[0] if col.dropna().size else col)
         fig_norm = go.Figure()
         for i, ticker in enumerate(norm_df.columns):
-            fig_norm.add_trace(go.Scatter(x=norm_df.index, y=norm_df[ticker], mode="lines", name=ticker, line=dict(color=palette[i % len(palette)], width=2.2)))
+            fig_norm.add_trace(go.Scatter(x=norm_df.index, y=norm_df[ticker], mode="lines", name=ticker, line=dict(color=chart_palette[i % len(chart_palette)], width=2.4)))
         fig_norm.update_layout(
             title="Growth Since Start",
             xaxis_title="Date",
@@ -305,8 +306,8 @@ with tab3:
         mu, sigma = norm.fit(r)
         x_vals = np.linspace(r.min(), r.max(), 300)
         fig_hist = go.Figure()
-        fig_hist.add_trace(go.Histogram(x=r, histnorm="probability density", name="Returns", opacity=.62, marker_color="#4fd1c5"))
-        fig_hist.add_trace(go.Scatter(x=x_vals, y=norm.pdf(x_vals, mu, sigma), mode="lines", name="Normal Fit", line=dict(color="#ff6b6b", width=2.5)))
+        fig_hist.add_trace(go.Histogram(x=r, histnorm="probability density", name="Returns", opacity=.68, marker_color="#0f766e"))
+        fig_hist.add_trace(go.Scatter(x=x_vals, y=norm.pdf(x_vals, mu, sigma), mode="lines", name="Normal Fit", line=dict(color="#f97316", width=2.5)))
         fig_hist.update_layout(title=f"{selected_stock} Return Distribution", xaxis_title="Daily Return", yaxis_title="Density", barmode="overlay")
         style_figure(fig_hist, 500)
         st.plotly_chart(fig_hist, width="stretch")
@@ -317,7 +318,7 @@ with tab4:
     st.subheader("Correlation Matrix")
     corr_df = prices[display_columns].pct_change().dropna()
     corr_matrix = corr_df.corr()
-    fig_corr = go.Figure(data=go.Heatmap(z=corr_matrix.values, x=corr_matrix.columns, y=corr_matrix.columns, colorscale="RdBu", zmin=-1, zmax=1, colorbar=dict(title="Correlation"), text=corr_matrix.round(2).values, texttemplate="%{text}", textfont={"size": 13}))
+    fig_corr = go.Figure(data=go.Heatmap(z=corr_matrix.values, x=corr_matrix.columns, y=corr_matrix.columns, colorscale="Tealgrn", zmin=-1, zmax=1, colorbar=dict(title="Correlation"), text=corr_matrix.round(2).values, texttemplate="%{text}", textfont={"size": 13}))
     fig_corr.update_layout(title="Correlation Heatmap of Daily Returns")
     style_figure(fig_corr, 500)
     st.plotly_chart(fig_corr, width="stretch")
@@ -329,8 +330,8 @@ with tab4:
         fit = np.polyfit(scatter_df[stock_x], scatter_df[stock_y], 1)
         trend_x = np.linspace(scatter_df[stock_x].min(), scatter_df[stock_x].max(), 100)
         fig_scatter = go.Figure()
-        fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#4fd1c5", size=8, opacity=.65)))
-        fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#ff6b6b", width=2)))
+        fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#0f766e", size=8, opacity=.65)))
+        fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#f97316", width=2)))
         fig_scatter.update_layout(title=f"{stock_x} vs {stock_y} Daily Returns", xaxis_title=stock_x, yaxis_title=stock_y)
         style_figure(fig_scatter, 500)
         st.plotly_chart(fig_scatter, width="stretch")
@@ -344,7 +345,7 @@ with tab4:
         pair_returns = prices[[corr_stock_1, corr_stock_2]].pct_change().dropna()
         rolling_corr = pair_returns[corr_stock_1].rolling(corr_window).corr(pair_returns[corr_stock_2])
         fig_rollcorr = go.Figure()
-        fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#ffd166", width=2.3)))
+        fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#7c3aed", width=2.3)))
         fig_rollcorr.update_layout(title=f"Rolling {corr_window}-Day Correlation: {corr_stock_1} vs {corr_stock_2}", xaxis_title="Date", yaxis_title="Correlation")
         style_figure(fig_rollcorr, 500)
         st.plotly_chart(fig_rollcorr, width="stretch")
@@ -370,8 +371,8 @@ with tab4:
             rets.append(w * mean_returns[stock_a] + (1 - w) * mean_returns[stock_b])
             vols.append(np.sqrt((w ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - w) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]))
         fig_port = go.Figure()
-        fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#4fd1c5", width=2.5)))
-        fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#ff6b6b"), name="Current Allocation"))
+        fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#0f766e", width=2.5)))
+        fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#f97316"), name="Current Allocation"))
         fig_port.update_layout(title="Risk / Return Path for Two-Asset Mix", xaxis_title="Annualized Volatility", yaxis_title="Annualized Return")
         style_figure(fig_port, 520)
         st.plotly_chart(fig_port, width="stretch")
