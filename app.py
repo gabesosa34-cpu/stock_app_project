@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import date, timedelta
 import numpy as np
-from scipy.stats import norm, probplot, jarque_bera, skew, kurtosis
+from scipy.stats import norm, jarque_bera, skew, kurtosis
 
 st.set_page_config(page_title="PulseQuant Dashboard", layout="wide")
 
@@ -122,9 +122,24 @@ def beta(asset_returns: pd.Series, benchmark_returns: pd.Series) -> float:
     return joined.iloc[:, 0].cov(joined.iloc[:, 1]) / joined.iloc[:, 1].var()
 
 def style_figure(fig: go.Figure, height: int = 500):
-    fig.update_layout(template="plotly_dark", height=height, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(7,17,31,.25)", margin=dict(l=30, r=20, t=50, b=30), legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
-    fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(gridcolor="rgba(255,255,255,.08)")
+    fig.update_layout(
+        template="plotly_white",
+        height=height,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="#ffffff",
+        margin=dict(l=30, r=20, t=70, b=30),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            x=0,
+            font=dict(size=11),
+            bgcolor="rgba(255,255,255,0.85)",
+        ),
+        font=dict(color="#18324f"),
+    )
+    fig.update_xaxes(showgrid=False, color="#48627e")
+    fig.update_yaxes(gridcolor="rgba(24,50,79,.10)", color="#48627e")
 
 prices, bad_tickers = load_data(tickers, start_date, end_date)
 if prices.empty:
@@ -148,6 +163,7 @@ if bad_tickers:
 
 benchmark_col = "^GSPC" if "^GSPC" in prices.columns else None
 display_columns = valid_tickers + ([benchmark_col] if benchmark_col and show_benchmark else [])
+display_name_map = {"^GSPC": "S&P 500", "Equal-Weight Portfolio": "Equal-Weight"}
 main_ticker = valid_tickers[0]
 main_prices = prices[main_ticker].dropna()
 main_returns = main_prices.pct_change().dropna()
@@ -214,7 +230,12 @@ with tab1:
         fig_norm = go.Figure()
         for i, ticker in enumerate(norm_df.columns):
             fig_norm.add_trace(go.Scatter(x=norm_df.index, y=norm_df[ticker], mode="lines", name=ticker, line=dict(color=palette[i % len(palette)], width=2.2)))
-        fig_norm.update_layout(title="Normalized Performance (Start = 1.0)", xaxis_title="Date", yaxis_title="Growth Multiple")
+        fig_norm.update_layout(
+            title="Growth Since Start",
+            xaxis_title="Date",
+            yaxis_title="Growth Multiple",
+        )
+        fig_norm.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
         style_figure(fig_norm, 460)
         st.plotly_chart(fig_norm, width="stretch")
     else:
@@ -234,7 +255,8 @@ with tab2:
     fig_wealth = go.Figure()
     for col in wealth_df.columns:
         fig_wealth.add_trace(go.Scatter(x=wealth_df.index, y=wealth_df[col], mode="lines", name=col, line=dict(width=2.3 if col == "Equal-Weight Portfolio" else 1.9)))
-    fig_wealth.update_layout(title="Cumulative Wealth (Normalized to $10,000)", xaxis_title="Date", yaxis_title="Portfolio Value ($)")
+    fig_wealth.update_layout(title="Cumulative Wealth (Starting at $10,000)", xaxis_title="Date", yaxis_title="Portfolio Value ($)")
+    fig_wealth.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
     style_figure(fig_wealth, 520)
     st.plotly_chart(fig_wealth, width="stretch")
     c1, c2 = st.columns(2)
@@ -244,6 +266,7 @@ with tab2:
 with tab3:
     risk_stocks = st.multiselect("Select stocks to display in Risk Analysis", options=valid_tickers, default=valid_tickers)
     if risk_stocks:
+        st.caption("This tab focuses on two things: how jumpy each stock is over time, and whether one stock has unusually wild daily returns.")
         vol_window = st.selectbox("Rolling volatility window", [30, 60, 90], index=0)
         risk_df = prices[risk_stocks + ([benchmark_col] if benchmark_col and show_benchmark else [])].pct_change().dropna()
         rolling_vol = risk_df.rolling(vol_window).std() * np.sqrt(252)
@@ -251,17 +274,22 @@ with tab3:
         for col in rolling_vol.columns:
             fig_vol.add_trace(go.Scatter(x=rolling_vol.index, y=rolling_vol[col], mode="lines", name=col))
         fig_vol.update_layout(title=f"Rolling {vol_window}-Day Annualized Volatility", xaxis_title="Date", yaxis_title="Volatility")
+        fig_vol.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
         style_figure(fig_vol, 500)
         st.plotly_chart(fig_vol, width="stretch")
 
-        selected_stock = st.selectbox("Select a stock for distribution analysis", options=risk_stocks)
+        st.subheader("Daily Return Distribution")
+        selected_stock = st.selectbox("Select a stock to inspect", options=risk_stocks)
         r = prices[selected_stock].pct_change().dropna()
         jb_stat, jb_p = jarque_bera(r)
         a, b, c = st.columns(3)
         a.metric("Jarque-Bera", f"{jb_stat:.2f}")
         b.metric("p-value", f"{jb_p:.4f}")
         c.metric("Skewness", f"{skew(r):.2f}")
-        st.error("Daily returns deviate meaningfully from a normal distribution.") if jb_p < 0.05 else st.success("The normality test does not reject a normal distribution at the 5% level.")
+        if jb_p < 0.05:
+            st.warning("This stock's daily moves are not shaped like a clean bell curve, which usually means fatter tails or more extreme moves.")
+        else:
+            st.success("This stock's daily moves look fairly close to a bell-curve shape over this period.")
 
         mu, sigma = norm.fit(r)
         x_vals = np.linspace(r.min(), r.max(), 300)
@@ -271,22 +299,6 @@ with tab3:
         fig_hist.update_layout(title=f"{selected_stock} Return Distribution", xaxis_title="Daily Return", yaxis_title="Density", barmode="overlay")
         style_figure(fig_hist, 500)
         st.plotly_chart(fig_hist, width="stretch")
-
-        qq = probplot(r, dist="norm")
-        theoretical, ordered = qq[0][0], qq[0][1]
-        fig_qq = go.Figure()
-        fig_qq.add_trace(go.Scatter(x=theoretical, y=ordered, mode="markers", name="Q-Q Points", marker=dict(color="#5aa9ff", size=7)))
-        fig_qq.add_trace(go.Scatter(x=theoretical, y=theoretical, mode="lines", name="45 Degree Line", line=dict(color="#ffd166", dash="dash")))
-        fig_qq.update_layout(title=f"{selected_stock} Q-Q Plot", xaxis_title="Theoretical Quantiles", yaxis_title="Sample Quantiles")
-        style_figure(fig_qq, 500)
-        st.plotly_chart(fig_qq, width="stretch")
-
-        fig_box = go.Figure()
-        for col in prices[risk_stocks].pct_change().dropna().columns:
-            fig_box.add_trace(go.Box(y=prices[risk_stocks].pct_change().dropna()[col], name=col, boxmean=True))
-        fig_box.update_layout(title="Daily Return Distributions", yaxis_title="Daily Return", xaxis_title="Stocks")
-        style_figure(fig_box, 500)
-        st.plotly_chart(fig_box, width="stretch")
     else:
         st.warning("Please select at least one stock.")
 
