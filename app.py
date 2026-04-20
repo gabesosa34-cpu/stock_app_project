@@ -33,8 +33,8 @@ st.markdown(
     .side-card{padding:1rem;border-radius:20px;margin-bottom:1rem}
     .kicker{color:#4ade80;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:800}
     .title{font-size:2.4rem;font-weight:900;margin:.25rem 0;color:#f8fbff;line-height:1.03}
-    .copy,.mini-note,.panel-copy{color:#8ea4c1}
-    .mini-label,.panel-kicker{font-size:.75rem;color:#7dd3fc;text-transform:uppercase;letter-spacing:.11em}
+    .copy,.mini-note,.panel-copy{color:#bed0e7}
+    .mini-label,.panel-kicker{font-size:.75rem;color:#b8e6ff;text-transform:uppercase;letter-spacing:.11em}
     .mini-value{font-size:1.8rem;font-weight:900;color:#f8fbff}
     .insight{border-left:4px solid #22c55e;background:linear-gradient(90deg,rgba(34,197,94,.12),rgba(34,197,94,.04));padding:.95rem 1rem;border-radius:16px;color:#e6eef8;margin-bottom:1rem}
     .section-title{font-size:1.25rem;font-weight:800;color:#f8fbff;margin-bottom:.2rem}
@@ -45,9 +45,9 @@ st.markdown(
     .stTabs [data-baseweb="tab"]{background:rgba(16,27,42,.85);border:1px solid rgba(125,151,179,.16);border-radius:14px;color:#dbeafe !important;font-weight:700;padding:.4rem .9rem}
     .stTabs [aria-selected="true"]{background:rgba(30,41,59,.98) !important;color:#ffffff !important;border-color:rgba(96,165,250,.45);box-shadow:0 10px 24px rgba(0,0,0,.18)}
     .stTabs [data-baseweb="tab-highlight"]{display:none !important}
-    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#cfe0f5 !important;font-weight:700}
-    .stCaption,.stMarkdown,.stText{color:#dbeafe}
-    p, label, span, div[data-testid="stMarkdownContainer"]{color:#dbeafe}
+    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#f3f8ff !important;font-weight:700}
+    .stCaption,.stMarkdown,.stText{color:#eef6ff}
+    p, label, span, div[data-testid="stMarkdownContainer"]{color:#eef6ff}
     [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#101b2a !important;border:1px solid rgba(125,151,179,.16) !important;color:#f8fbff !important;border-radius:14px !important;box-shadow:none}
     [data-baseweb="tag"]{background:#15314d !important;color:#dff7ff !important;border:1px solid rgba(125,151,179,.18)}
     .market-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.75rem .85rem;border-radius:14px;margin-bottom:.6rem}
@@ -166,7 +166,7 @@ def style_figure(fig: go.Figure, height: int = 500):
         title_xanchor="left",
         title_y=0.97,
         title_yanchor="top",
-        title_font=dict(size=18, color="#18324f"),
+        title_font=dict(size=19, color="#f8fbff"),
     )
     fig.update_xaxes(showgrid=False, color="#48627e")
     fig.update_yaxes(gridcolor="rgba(24,50,79,.10)", color="#48627e")
@@ -396,14 +396,6 @@ with tab3:
         st.markdown("</div>", unsafe_allow_html=True)
 
 with tab4:
-    stock_x = st.selectbox("Scatter X", display_columns, index=0, key="rel_scatter_x")
-    stock_y = st.selectbox("Scatter Y", display_columns, index=1, key="rel_scatter_y")
-    corr_stock_1 = st.selectbox("Rolling corr first", display_columns, index=0, key="corr1")
-    corr_stock_2 = st.selectbox("Rolling corr second", display_columns, index=1, key="corr2")
-    corr_window = st.selectbox("Rolling corr window", [30, 60, 90], index=0, key="corr_window")
-    stock_a = st.selectbox("Portfolio stock A", valid_tickers, key="port_a")
-    stock_b = st.selectbox("Portfolio stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
-    weight = st.slider("Weight on stock A (%)", 0, 100, 50, key="portfolio_weight") / 100
     rel_top_left, rel_top_right = st.columns(2, gap="large")
     with rel_top_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -414,58 +406,75 @@ with tab4:
         st.markdown("</div>", unsafe_allow_html=True)
     with rel_top_right:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        if stock_x != stock_y:
-            scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
-            fit = np.polyfit(scatter_df[stock_x], scatter_df[stock_y], 1)
-            trend_x = np.linspace(scatter_df[stock_x].min(), scatter_df[stock_x].max(), 100)
-            fig_scatter = go.Figure()
-            fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#22c55e", size=8, opacity=.6)))
-            fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#60a5fa", width=2.3)))
-            fig_scatter.update_layout(title=f"{stock_x} vs {stock_y}", xaxis_title=stock_x, yaxis_title=stock_y)
-            style_figure(fig_scatter, 430)
-            st.plotly_chart(fig_scatter, width="stretch")
-        else:
-            st.warning("Pick two different names for the relationship scatter.")
+        scatter_control_col, scatter_chart_col = st.columns([0.85, 1.65], gap="medium")
+        with scatter_control_col:
+            stock_x = st.selectbox("X symbol", display_columns, index=0, key="rel_scatter_x")
+            stock_y = st.selectbox("Y symbol", display_columns, index=1, key="rel_scatter_y")
+        with scatter_chart_col:
+            if stock_x != stock_y:
+                scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
+                fit = np.polyfit(scatter_df[stock_x], scatter_df[stock_y], 1)
+                trend_x = np.linspace(scatter_df[stock_x].min(), scatter_df[stock_x].max(), 100)
+                fig_scatter = go.Figure()
+                fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#22c55e", size=8, opacity=.6)))
+                fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#60a5fa", width=2.3)))
+                fig_scatter.update_layout(title=f"{stock_x} vs {stock_y}", xaxis_title=stock_x, yaxis_title=stock_y)
+                style_figure(fig_scatter, 430)
+                st.plotly_chart(fig_scatter, width="stretch")
+            else:
+                st.warning("Pick two different names for the relationship scatter.")
         st.markdown("</div>", unsafe_allow_html=True)
 
     rel_bottom_left, rel_bottom_right = st.columns(2, gap="large")
     with rel_bottom_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        if corr_stock_1 != corr_stock_2:
-            pair_returns = prices[[corr_stock_1, corr_stock_2]].pct_change().dropna()
-            rolling_corr = pair_returns[corr_stock_1].rolling(corr_window).corr(pair_returns[corr_stock_2])
-            fig_rollcorr = go.Figure()
-            fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#a855f7", width=2.4)))
-            fig_rollcorr.update_layout(title=f"Rolling Correlation: {corr_stock_1} vs {corr_stock_2}", xaxis_title="Date", yaxis_title="Correlation")
-            style_figure(fig_rollcorr, 430)
-            st.plotly_chart(fig_rollcorr, width="stretch")
-        else:
-            st.warning("Pick two different names for rolling correlation.")
+        corr_control_col, corr_chart_col = st.columns([0.9, 1.6], gap="medium")
+        with corr_control_col:
+            corr_stock_1 = st.selectbox("First symbol", display_columns, index=0, key="corr1")
+            corr_stock_2 = st.selectbox("Second symbol", display_columns, index=1, key="corr2")
+            corr_window = st.selectbox("Window", [30, 60, 90], index=0, key="corr_window")
+        with corr_chart_col:
+            if corr_stock_1 != corr_stock_2:
+                pair_returns = prices[[corr_stock_1, corr_stock_2]].pct_change().dropna()
+                rolling_corr = pair_returns[corr_stock_1].rolling(corr_window).corr(pair_returns[corr_stock_2])
+                fig_rollcorr = go.Figure()
+                fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#a855f7", width=2.4)))
+                fig_rollcorr.update_layout(title=f"Rolling Correlation: {corr_stock_1} vs {corr_stock_2}", xaxis_title="Date", yaxis_title="Correlation")
+                style_figure(fig_rollcorr, 430)
+                st.plotly_chart(fig_rollcorr, width="stretch")
+            else:
+                st.warning("Pick two different names for rolling correlation.")
         st.markdown("</div>", unsafe_allow_html=True)
     with rel_bottom_right:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        if stock_a != stock_b:
-            pair = prices[[stock_a, stock_b]].pct_change().dropna()
-            mean_returns = pair.mean() * 252
-            cov_matrix = pair.cov() * 252
-            portfolio_return = weight * mean_returns[stock_a] + (1 - weight) * mean_returns[stock_b]
-            portfolio_vol = np.sqrt((weight ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - weight) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * weight * (1 - weight) * cov_matrix.loc[stock_a, stock_b])
-            pcols = st.columns(2)
-            pcols[0].metric("Return", f"{portfolio_return:.2%}")
-            pcols[1].metric("Volatility", f"{portfolio_vol:.2%}")
-            weights = np.linspace(0, 1, 100)
-            vols, rets = [], []
-            for w in weights:
-                rets.append(w * mean_returns[stock_a] + (1 - w) * mean_returns[stock_b])
-                vols.append(np.sqrt((w ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - w) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]))
-            fig_port = go.Figure()
-            fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#22c55e", width=2.5)))
-            fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#f97316"), name="Current Mix"))
-            fig_port.update_layout(title="Risk / Return Path", xaxis_title="Annualized Volatility", yaxis_title="Annualized Return")
-            style_figure(fig_port, 430)
-            st.plotly_chart(fig_port, width="stretch")
-        else:
-            st.warning("Pick two different names for the portfolio mix.")
+        port_control_col, port_chart_col = st.columns([0.95, 1.55], gap="medium")
+        with port_control_col:
+            stock_a = st.selectbox("Stock A", valid_tickers, key="port_a")
+            stock_b = st.selectbox("Stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
+            weight = st.slider("Weight on A (%)", 0, 100, 50, key="portfolio_weight") / 100
+        with port_chart_col:
+            if stock_a != stock_b:
+                pair = prices[[stock_a, stock_b]].pct_change().dropna()
+                mean_returns = pair.mean() * 252
+                cov_matrix = pair.cov() * 252
+                portfolio_return = weight * mean_returns[stock_a] + (1 - weight) * mean_returns[stock_b]
+                portfolio_vol = np.sqrt((weight ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - weight) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * weight * (1 - weight) * cov_matrix.loc[stock_a, stock_b])
+                pcols = st.columns(2)
+                pcols[0].metric("Return", f"{portfolio_return:.2%}")
+                pcols[1].metric("Volatility", f"{portfolio_vol:.2%}")
+                weights = np.linspace(0, 1, 100)
+                vols, rets = [], []
+                for w in weights:
+                    rets.append(w * mean_returns[stock_a] + (1 - w) * mean_returns[stock_b])
+                    vols.append(np.sqrt((w ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - w) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]))
+                fig_port = go.Figure()
+                fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#22c55e", width=2.5)))
+                fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#f97316"), name="Current Mix"))
+                fig_port.update_layout(title="Risk / Return Path", xaxis_title="Annualized Volatility", yaxis_title="Annualized Return")
+                style_figure(fig_port, 430)
+                st.plotly_chart(fig_port, width="stretch")
+            else:
+                st.warning("Pick two different names for the portfolio mix.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 with tab5:
@@ -490,5 +499,6 @@ with tab5:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
