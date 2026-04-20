@@ -40,7 +40,7 @@ st.markdown(
     .section-title{font-size:1.25rem;font-weight:800;color:#f8fbff;margin-bottom:.2rem}
     .stMetric{background:linear-gradient(180deg,rgba(16,27,42,.98),rgba(12,21,33,.98));border:1px solid rgba(125,151,179,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.15)}
     .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#f8fbff !important}
-    .stMetric [data-testid="stMetricValue"]{font-size:2.35rem !important;line-height:1.08 !important;white-space:normal !important;overflow:visible !important;text-overflow:unset !important}
+    .stMetric [data-testid="stMetricValue"]{font-size:2rem !important;line-height:1.08 !important;white-space:normal !important;overflow:visible !important;text-overflow:unset !important}
     .stMetric [data-testid="stMetricLabel"]{font-size:1rem !important;white-space:normal !important}
     .stMetric > div{width:100% !important}
     .stButton>button{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(37,99,235,.22)}
@@ -251,12 +251,13 @@ with tab1:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
         st.markdown('<div class="section-title">Market Focus</div>', unsafe_allow_html=True)
         st.markdown(f'<div class="insight"><strong>{main_ticker} read:</strong> {trend_note}</div>', unsafe_allow_html=True)
-        metric_cols = st.columns(5)
-        metric_cols[0].metric("Latest Close", f"${latest_close:,.2f}")
-        metric_cols[1].metric("Period Return", f"{period_return:.2%}")
-        metric_cols[2].metric("Ann. Volatility", f"{ann_volatility:.2%}")
-        metric_cols[3].metric("Max Drawdown", f"{float(main_drawdown.min()):.2%}")
-        metric_cols[4].metric("Beta vs S&P 500", "N/A" if np.isnan(beta_value) else f"{beta_value:.2f}")
+        metric_row_1 = st.columns(3)
+        metric_row_1[0].metric("Latest Close", f"${latest_close:,.2f}")
+        metric_row_1[1].metric("Period Return", f"{period_return:.2%}")
+        metric_row_1[2].metric("Ann. Volatility", f"{ann_volatility:.2%}")
+        metric_row_2 = st.columns(2)
+        metric_row_2[0].metric("Max Drawdown", f"{float(main_drawdown.min()):.2%}")
+        metric_row_2[1].metric("Beta vs S&P 500", "N/A" if np.isnan(beta_value) else f"{beta_value:.2f}")
         st.markdown("</div>", unsafe_allow_html=True)
 
         if selected_stocks:
@@ -502,6 +503,7 @@ with tab5:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
