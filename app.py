@@ -40,6 +40,9 @@ st.markdown(
     .section-title{font-size:1.25rem;font-weight:800;color:#f8fbff;margin-bottom:.2rem}
     .stMetric{background:linear-gradient(180deg,rgba(16,27,42,.98),rgba(12,21,33,.98));border:1px solid rgba(125,151,179,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.15)}
     .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#f8fbff !important}
+    .stMetric [data-testid="stMetricValue"]{font-size:2.35rem !important;line-height:1.08 !important;white-space:normal !important;overflow:visible !important;text-overflow:unset !important}
+    .stMetric [data-testid="stMetricLabel"]{font-size:1rem !important;white-space:normal !important}
+    .stMetric > div{width:100% !important}
     .stButton>button{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(37,99,235,.22)}
     .stTabs [data-baseweb="tab-list"]{gap:.45rem;border-bottom:1px solid rgba(125,151,179,.18);padding-bottom:.35rem}
     .stTabs [data-baseweb="tab"]{background:rgba(16,27,42,.85);border:1px solid rgba(125,151,179,.16);border-radius:14px;color:#dbeafe !important;font-weight:700;padding:.4rem .9rem}
@@ -499,6 +502,7 @@ with tab5:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
