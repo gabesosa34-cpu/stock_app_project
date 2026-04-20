@@ -18,32 +18,42 @@ st.set_page_config(page_title="PulseQuant Dashboard", layout="wide")
 st.markdown(
     """
     <style>
-    .stApp{background:radial-gradient(circle at top left,rgba(15,118,110,.10),transparent 26%),radial-gradient(circle at top right,rgba(249,115,22,.08),transparent 22%),linear-gradient(180deg,#f8fafc 0%,#eef2f7 52%,#e5ebf3 100%);color:#172033}
+    .stApp{background:radial-gradient(circle at top left,rgba(34,197,94,.09),transparent 22%),radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 24%),linear-gradient(180deg,#07111b 0%,#0b1724 52%,#0e1c2d 100%);color:#e6eef8}
     [data-testid="stHeader"]{background:rgba(0,0,0,0)}
-    [data-testid="stSidebar"]{background:linear-gradient(180deg,#f4f7fb,#e9eef6);border-right:1px solid rgba(87,107,139,.18)}
-    [data-testid="stSidebar"] *{color:#18263d !important}
-    .hero,.section-card,.mini-card{border:1px solid rgba(87,107,139,.14);background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(246,248,252,.98))}
-    .hero{padding:1.5rem 1.7rem;border-radius:28px;box-shadow:0 24px 60px rgba(28,39,60,.10);margin-bottom:1.1rem;position:relative;overflow:hidden}
-    .hero:before{content:"";position:absolute;inset:auto -8% -45% auto;width:260px;height:260px;background:radial-gradient(circle,rgba(15,118,110,.14),transparent 66%)}
-    .section-card{padding:1rem 1.1rem;border-radius:22px;margin-bottom:1rem;box-shadow:0 10px 28px rgba(28,39,60,.05)}
-    .mini-card{padding:1rem 1.05rem;border-radius:20px;min-height:110px;box-shadow:0 10px 28px rgba(28,39,60,.05)}
-    .kicker{color:#0f766e;text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:800}
-    .title{font-size:2.35rem;font-weight:900;margin:.2rem 0;color:#172033;line-height:1.05}
-    .copy,.mini-note{color:#5e6b82}
-    .mini-label{font-size:.78rem;color:#6e7c93;text-transform:uppercase;letter-spacing:.11em}
-    .mini-value{font-size:1.8rem;font-weight:900;color:#172033}
-    .insight{border-left:4px solid #0f766e;background:linear-gradient(90deg,rgba(15,118,110,.10),rgba(15,118,110,.04));padding:.95rem 1rem;border-radius:16px;color:#18314c;margin-bottom:1rem}
-    .stMetric{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(245,247,251,.98));border:1px solid rgba(87,107,139,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(28,39,60,.05)}
-    .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#172033 !important}
-    .stButton>button{background:linear-gradient(135deg,#0f766e,#115e59);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(15,118,110,.22)}
-    .stTabs [data-baseweb="tab-list"]{gap:.35rem;border-bottom:none}
-    .stTabs [data-baseweb="tab"]{background:rgba(255,255,255,.72);border:1px solid rgba(87,107,139,.14);border-radius:14px;color:#4f5d73;font-weight:600}
-    .stTabs [aria-selected="true"]{background:#ffffff !important;color:#172033 !important;box-shadow:0 8px 22px rgba(28,39,60,.08)}
-    .stTabs [data-baseweb="tab-highlight"]{display:none !important}
-    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#21314c !important;font-weight:700}
-    .stCaption,.stMarkdown,.stText{color:#21314c}
-    [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#fff !important;border:1px solid rgba(87,107,139,.16) !important;color:#172033 !important;border-radius:14px !important;box-shadow:0 6px 18px rgba(28,39,60,.04)}
-    [data-baseweb="tag"]{background:#ecfdf5 !important;color:#14532d !important;border:1px solid rgba(16,185,129,.18)}
+    [data-testid="stSidebar"]{background:linear-gradient(180deg,#0b1622,#0f1c2c);border-right:1px solid rgba(125,151,179,.16)}
+    [data-testid="stSidebar"] *{color:#d9e5f5 !important}
+    .terminal-bar,.hero,.section-card,.mini-card,.side-card,.market-row{border:1px solid rgba(125,151,179,.14);background:linear-gradient(180deg,rgba(14,24,37,.96),rgba(10,19,31,.98))}
+    .terminal-bar{padding:.8rem 1rem;border-radius:18px;margin-bottom:1rem;box-shadow:0 16px 40px rgba(0,0,0,.22)}
+    .terminal-brand{font-size:1.05rem;font-weight:800;letter-spacing:.05em;color:#f8fbff}
+    .terminal-copy{color:#8ea4c1;font-size:.9rem}
+    .hero{padding:1.5rem 1.7rem;border-radius:26px;box-shadow:0 24px 60px rgba(0,0,0,.22);margin-bottom:1.1rem;position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;inset:auto -8% -45% auto;width:280px;height:280px;background:radial-gradient(circle,rgba(59,130,246,.18),transparent 66%)}
+    .section-card{padding:1rem 1.1rem;border-radius:22px;margin-bottom:1rem;box-shadow:0 12px 32px rgba(0,0,0,.16)}
+    .mini-card{padding:1rem 1.05rem;border-radius:18px;min-height:110px;box-shadow:0 10px 24px rgba(0,0,0,.14)}
+    .side-card{padding:1rem;border-radius:20px;margin-bottom:1rem}
+    .kicker{color:#4ade80;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;font-weight:800}
+    .title{font-size:2.4rem;font-weight:900;margin:.25rem 0;color:#f8fbff;line-height:1.03}
+    .copy,.mini-note,.panel-copy{color:#8ea4c1}
+    .mini-label,.panel-kicker{font-size:.75rem;color:#7dd3fc;text-transform:uppercase;letter-spacing:.11em}
+    .mini-value{font-size:1.8rem;font-weight:900;color:#f8fbff}
+    .insight{border-left:4px solid #22c55e;background:linear-gradient(90deg,rgba(34,197,94,.12),rgba(34,197,94,.04));padding:.95rem 1rem;border-radius:16px;color:#e6eef8;margin-bottom:1rem}
+    .section-title{font-size:1.25rem;font-weight:800;color:#f8fbff;margin-bottom:.2rem}
+    .stMetric{background:linear-gradient(180deg,rgba(16,27,42,.98),rgba(12,21,33,.98));border:1px solid rgba(125,151,179,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.15)}
+    .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#f8fbff !important}
+    .stButton>button{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(37,99,235,.22)}
+    .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#cfe0f5 !important;font-weight:700}
+    .stCaption,.stMarkdown,.stText{color:#cfe0f5}
+    [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#101b2a !important;border:1px solid rgba(125,151,179,.16) !important;color:#f8fbff !important;border-radius:14px !important;box-shadow:none}
+    [data-baseweb="tag"]{background:#15314d !important;color:#dff7ff !important;border:1px solid rgba(125,151,179,.18)}
+    .market-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.75rem .85rem;border-radius:14px;margin-bottom:.6rem}
+    .ticker-name{font-size:.95rem;font-weight:700;color:#f8fbff}
+    .ticker-meta{font-size:.78rem;color:#7f93ae}
+    .ticker-price{font-size:1rem;font-weight:800;color:#f8fbff;text-align:right}
+    .badge-up,.badge-down,.badge-flat{display:inline-block;padding:.22rem .5rem;border-radius:999px;font-size:.76rem;font-weight:700}
+    .badge-up{background:rgba(34,197,94,.16);color:#7ef0a1}
+    .badge-down{background:rgba(239,68,68,.16);color:#ff9999}
+    .badge-flat{background:rgba(148,163,184,.16);color:#d6e1ee}
+    .help-note{padding:.9rem 1rem;border-radius:16px;background:rgba(37,99,235,.10);border:1px solid rgba(59,130,246,.18);color:#dbeafe}
     </style>
     """,
     unsafe_allow_html=True,
@@ -51,16 +61,18 @@ st.markdown(
 
 st.markdown(
     """
+    <div class="terminal-bar">
+      <div class="terminal-brand">Stock Dashboard</div>
+      <div class="terminal-copy">A rebuilt market workspace with chart-first layout, performance board, and relationship panels.</div>
+    </div>
     <div class="hero">
-      <div class="kicker">PulseQuant Dashboard</div>
-      <div class="title">Stock Performance and Risk Dashboard</div>
-      <div class="copy">Compare names, benchmark against the S&amp;P 500, and explore risk with a cleaner modern market dashboard.</div>
+      <div class="kicker">Market Workspace</div>
+      <div class="title">Chart-first stock analysis, rebuilt.</div>
+      <div class="copy">Inspired by trading terminals and market maps, this layout puts the main chart, movers, risk, and relationships on one screen instead of hiding them behind tabs.</div>
     </div>
     """,
     unsafe_allow_html=True,
 )
-
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Market View", "Performance", "Risk Analysis", "Relationships", "About"])
 
 st.sidebar.header("Control Center")
 tickers_input = st.sidebar.text_input("Enter 2 to 5 stock tickers", value="", placeholder="AAPL, MSFT, NVDA").upper()
@@ -207,19 +219,52 @@ trend_note = (
     else f"{main_ticker} is below at least one key moving average, suggesting weaker momentum."
 )
 
-with tab1:
+latest_returns = prices[valid_tickers].pct_change().dropna().iloc[-1].sort_values(ascending=False)
+stats_returns = prices[display_columns].pct_change().dropna()
+wealth_df = pd.DataFrame(index=prices.index)
+for col in display_columns:
+    wealth_df[col] = 10000 * (prices[col] / prices[col].dropna().iloc[0])
+wealth_df["Equal-Weight Portfolio"] = 10000 * (1 + prices[valid_tickers].pct_change().dropna().mean(axis=1)).cumprod()
+corr_df = prices[display_columns].pct_change().dropna()
+corr_matrix = corr_df.corr()
+
+selected_stocks = st.multiselect(
+    "Chart symbols",
+    options=display_columns,
+    default=display_columns,
+    help="Choose which symbols appear in the main chart stack.",
+)
+risk_stocks = st.multiselect(
+    "Risk symbols",
+    options=valid_tickers,
+    default=valid_tickers,
+    help="Choose which stocks to include in volatility analysis.",
+)
+vol_window = st.selectbox("Volatility window", [30, 60, 90], index=0)
+selected_stock = st.selectbox("Distribution focus", options=risk_stocks if risk_stocks else valid_tickers)
+stock_x = st.selectbox("Scatter X", display_columns, index=0)
+stock_y = st.selectbox("Scatter Y", display_columns, index=1)
+corr_stock_1 = st.selectbox("Rolling corr first", display_columns, index=0, key="corr1")
+corr_stock_2 = st.selectbox("Rolling corr second", display_columns, index=1, key="corr2")
+corr_window = st.selectbox("Rolling corr window", [30, 60, 90], index=0)
+stock_a = st.selectbox("Portfolio stock A", valid_tickers, key="port_a")
+stock_b = st.selectbox("Portfolio stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
+weight = st.slider("Weight on stock A (%)", 0, 100, 50) / 100
+
+main_col, side_col = st.columns([3.2, 1.2], gap="large")
+
+with main_col:
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
-    st.subheader(f"{main_ticker} Snapshot")
-    cols = st.columns(5)
-    cols[0].metric("Latest Close", f"${latest_close:,.2f}")
-    cols[1].metric("Period Return", f"{period_return:.2%}")
-    cols[2].metric("Annualized Volatility", f"{ann_volatility:.2%}")
-    cols[3].metric("Max Drawdown", f"{float(main_drawdown.min()):.2%}")
-    cols[4].metric("Beta vs S&P 500", "N/A" if np.isnan(beta_value) else f"{beta_value:.2f}")
-    st.markdown(f'<div class="insight"><strong>Market read:</strong> {trend_note}</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Market Focus</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="insight"><strong>{main_ticker} read:</strong> {trend_note}</div>', unsafe_allow_html=True)
+    metric_cols = st.columns(5)
+    metric_cols[0].metric("Latest Close", f"${latest_close:,.2f}")
+    metric_cols[1].metric("Period Return", f"{period_return:.2%}")
+    metric_cols[2].metric("Ann. Volatility", f"{ann_volatility:.2%}")
+    metric_cols[3].metric("Max Drawdown", f"{float(main_drawdown.min()):.2%}")
+    metric_cols[4].metric("Beta vs S&P 500", "N/A" if np.isnan(beta_value) else f"{beta_value:.2f}")
     st.markdown("</div>", unsafe_allow_html=True)
 
-    selected_stocks = st.multiselect("Select stocks to display", options=display_columns, default=display_columns)
     if selected_stocks:
         fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.08, row_heights=[0.72, 0.28])
         for i, ticker in enumerate(selected_stocks):
@@ -229,168 +274,202 @@ with tab1:
             dd = compute_drawdown(s)
             fig.add_trace(go.Scatter(x=dd.index, y=dd, mode="lines", name=f"{ticker} Drawdown", line=dict(color=color, width=1.5), showlegend=False, fill="tozeroy", fillcolor=f"rgba({int(color[1:3],16)},{int(color[3:5],16)},{int(color[5:7],16)},0.22)"), row=2, col=1)
             if ticker == main_ticker:
-                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_short).mean(), mode="lines", name=f"{ticker} {ma_short}D MA", line=dict(color="#64748b", width=1.8, dash="dot")), row=1, col=1)
+                fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_short).mean(), mode="lines", name=f"{ticker} {ma_short}D MA", line=dict(color="#94a3b8", width=1.8, dash="dot")), row=1, col=1)
                 fig.add_trace(go.Scatter(x=s.index, y=s.rolling(ma_long).mean(), mode="lines", name=f"{ticker} {ma_long}D MA", line=dict(color="#f59e0b", width=1.8, dash="dash")), row=1, col=1)
-        fig.update_layout(title="Price and Drawdown")
+        fig.update_layout(title="Price Action and Drawdown")
         fig.update_yaxes(title_text="Price (USD)", row=1, col=1)
         fig.update_yaxes(title_text="Drawdown", tickformat=".0%", row=2, col=1)
         fig.update_xaxes(title_text="Date", row=2, col=1)
-        style_figure(fig, 720)
+        style_figure(fig, 760)
         st.plotly_chart(fig, width="stretch")
+    else:
+        st.warning("Select at least one symbol to render the main chart panel.")
 
-        norm_df = prices[selected_stocks].apply(lambda col: col / col.dropna().iloc[0] if col.dropna().size else col)
+    row_a, row_b = st.columns(2, gap="large")
+    with row_a:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        norm_df = prices[selected_stocks].apply(lambda col: col / col.dropna().iloc[0] if col.dropna().size else col) if selected_stocks else pd.DataFrame()
         fig_norm = go.Figure()
         for i, ticker in enumerate(norm_df.columns):
             fig_norm.add_trace(go.Scatter(x=norm_df.index, y=norm_df[ticker], mode="lines", name=ticker, line=dict(color=chart_palette[i % len(chart_palette)], width=2.4)))
-        fig_norm.update_layout(
-            title="Growth Since Start",
-            xaxis_title="Date",
-            yaxis_title="Growth Multiple",
-        )
+        fig_norm.update_layout(title="Relative Performance", xaxis_title="Date", yaxis_title="Growth Multiple")
         fig_norm.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
-        style_figure(fig_norm, 460)
+        style_figure(fig_norm, 430)
         st.plotly_chart(fig_norm, width="stretch")
-    else:
-        st.warning("Select at least one ticker to render the market view charts.")
-
-with tab2:
-    st.subheader("Performance Leaderboard")
-    st.dataframe(leaderboard_df.style.format({"Return": "{:.2%}", "Volatility": "{:.2%}", "Sharpe": "{:.2f}", "Max Drawdown": "{:.2%}", "Beta": "{:.2f}"}), width="stretch")
-    st.subheader("Summary Statistics")
-    stats_returns = prices[display_columns].pct_change().dropna()
-    st.dataframe(summary_stats(stats_returns).style.format({"Annualized Mean Return": "{:.2%}", "Annualized Volatility": "{:.2%}", "Sharpe Ratio": "{:.2f}", "Skewness": "{:.3f}", "Kurtosis": "{:.3f}", "Min Daily Return": "{:.2%}", "Max Daily Return": "{:.2%}"}), width="stretch")
-    st.subheader("Growth of $10,000")
-    wealth_df = pd.DataFrame(index=prices.index)
-    for col in display_columns:
-        wealth_df[col] = 10000 * (prices[col] / prices[col].dropna().iloc[0])
-    wealth_df["Equal-Weight Portfolio"] = 10000 * (1 + prices[valid_tickers].pct_change().dropna().mean(axis=1)).cumprod()
-    fig_wealth = go.Figure()
-    for col in wealth_df.columns:
-        fig_wealth.add_trace(go.Scatter(x=wealth_df.index, y=wealth_df[col], mode="lines", name=col, line=dict(width=2.3 if col == "Equal-Weight Portfolio" else 1.9)))
-    fig_wealth.update_layout(title="Cumulative Wealth (Starting at $10,000)", xaxis_title="Date", yaxis_title="Portfolio Value ($)")
-    fig_wealth.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
-    style_figure(fig_wealth, 520)
-    st.plotly_chart(fig_wealth, width="stretch")
-    c1, c2 = st.columns(2)
-    c1.markdown(f'<div class="mini-card"><div class="mini-label">Top Performer</div><div class="mini-value">{leaderboard_df.iloc[0]["Ticker"]}</div><div class="mini-note">Return over period: {leaderboard_df.iloc[0]["Return"]:.2%}</div></div>', unsafe_allow_html=True)
-    c2.markdown(f'<div class="mini-card"><div class="mini-label">Lagging Name</div><div class="mini-value">{leaderboard_df.iloc[-1]["Ticker"]}</div><div class="mini-note">Return over period: {leaderboard_df.iloc[-1]["Return"]:.2%}</div></div>', unsafe_allow_html=True)
-
-with tab3:
-    risk_stocks = st.multiselect("Select stocks to display in Risk Analysis", options=valid_tickers, default=valid_tickers)
-    if risk_stocks:
-        st.caption("This tab focuses on two things: how jumpy each stock is over time, and whether one stock has unusually wild daily returns.")
-        vol_window = st.selectbox("Rolling volatility window", [30, 60, 90], index=0)
-        risk_df = prices[risk_stocks + ([benchmark_col] if benchmark_col and show_benchmark else [])].pct_change().dropna()
-        rolling_vol = risk_df.rolling(vol_window).std() * np.sqrt(252)
+        st.markdown("</div>", unsafe_allow_html=True)
+    with row_b:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        risk_df = prices[risk_stocks + ([benchmark_col] if benchmark_col and show_benchmark and risk_stocks else [])].pct_change().dropna() if risk_stocks else pd.DataFrame()
+        rolling_vol = risk_df.rolling(vol_window).std() * np.sqrt(252) if not risk_df.empty else pd.DataFrame()
         fig_vol = go.Figure()
-        for col in rolling_vol.columns:
-            fig_vol.add_trace(go.Scatter(x=rolling_vol.index, y=rolling_vol[col], mode="lines", name=col))
-        fig_vol.update_layout(title=f"Rolling {vol_window}-Day Annualized Volatility", xaxis_title="Date", yaxis_title="Volatility")
+        for i, col in enumerate(rolling_vol.columns):
+            fig_vol.add_trace(go.Scatter(x=rolling_vol.index, y=rolling_vol[col], mode="lines", name=col, line=dict(color=chart_palette[i % len(chart_palette)], width=2.2)))
+        fig_vol.update_layout(title=f"Rolling Volatility ({vol_window}D)", xaxis_title="Date", yaxis_title="Volatility")
         fig_vol.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
-        style_figure(fig_vol, 500)
+        style_figure(fig_vol, 430)
         st.plotly_chart(fig_vol, width="stretch")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.subheader("Daily Return Distribution")
-        selected_stock = st.selectbox("Select a stock to inspect", options=risk_stocks)
-        r = prices[selected_stock].pct_change().dropna()
-        jb_stat, jb_p = jarque_bera(r)
-        a, b, c = st.columns(3)
-        a.metric("Jarque-Bera", f"{jb_stat:.2f}")
-        b.metric("p-value", f"{jb_p:.4f}")
-        c.metric("Skewness", f"{skew(r):.2f}")
-        if jb_p < 0.05:
-            st.warning("This stock's daily moves are not shaped like a clean bell curve, which usually means fatter tails or more extreme moves.")
+    lower_left, lower_right = st.columns(2, gap="large")
+    with lower_left:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        fig_wealth = go.Figure()
+        for i, col in enumerate(wealth_df.columns):
+            width = 2.6 if col == "Equal-Weight Portfolio" else 2.0
+            color = "#f97316" if col == "Equal-Weight Portfolio" else chart_palette[i % len(chart_palette)]
+            fig_wealth.add_trace(go.Scatter(x=wealth_df.index, y=wealth_df[col], mode="lines", name=col, line=dict(color=color, width=width)))
+        fig_wealth.update_layout(title="Growth of $10,000", xaxis_title="Date", yaxis_title="Portfolio Value ($)")
+        fig_wealth.for_each_trace(lambda trace: trace.update(name=display_name_map.get(trace.name, trace.name)))
+        style_figure(fig_wealth, 430)
+        st.plotly_chart(fig_wealth, width="stretch")
+        st.markdown("</div>", unsafe_allow_html=True)
+    with lower_right:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        fig_corr = go.Figure(data=go.Heatmap(z=corr_matrix.values, x=corr_matrix.columns, y=corr_matrix.columns, colorscale="Tealgrn", zmin=-1, zmax=1, colorbar=dict(title="Correlation"), text=corr_matrix.round(2).values, texttemplate="%{text}", textfont={"size": 13}))
+        fig_corr.update_layout(title="Correlation Map")
+        style_figure(fig_corr, 430)
+        st.plotly_chart(fig_corr, width="stretch")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    bottom_left, bottom_right = st.columns(2, gap="large")
+    with bottom_left:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        if stock_x != stock_y:
+            scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
+            fit = np.polyfit(scatter_df[stock_x], scatter_df[stock_y], 1)
+            trend_x = np.linspace(scatter_df[stock_x].min(), scatter_df[stock_x].max(), 100)
+            fig_scatter = go.Figure()
+            fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#22c55e", size=8, opacity=.6)))
+            fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#60a5fa", width=2.3)))
+            fig_scatter.update_layout(title=f"{stock_x} vs {stock_y}", xaxis_title=stock_x, yaxis_title=stock_y)
+            style_figure(fig_scatter, 430)
+            st.plotly_chart(fig_scatter, width="stretch")
         else:
-            st.success("This stock's daily moves look fairly close to a bell-curve shape over this period.")
+            st.warning("Pick two different names for the relationship scatter.")
+        st.markdown("</div>", unsafe_allow_html=True)
+    with bottom_right:
+        st.markdown('<div class="section-card">', unsafe_allow_html=True)
+        if corr_stock_1 != corr_stock_2:
+            pair_returns = prices[[corr_stock_1, corr_stock_2]].pct_change().dropna()
+            rolling_corr = pair_returns[corr_stock_1].rolling(corr_window).corr(pair_returns[corr_stock_2])
+            fig_rollcorr = go.Figure()
+            fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#a855f7", width=2.4)))
+            fig_rollcorr.update_layout(title=f"Rolling Correlation: {corr_stock_1} vs {corr_stock_2}", xaxis_title="Date", yaxis_title="Correlation")
+            style_figure(fig_rollcorr, 430)
+            st.plotly_chart(fig_rollcorr, width="stretch")
+        else:
+            st.warning("Pick two different names for rolling correlation.")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        mu, sigma = norm.fit(r)
-        x_vals = np.linspace(r.min(), r.max(), 300)
-        fig_hist = go.Figure()
-        fig_hist.add_trace(go.Histogram(x=r, histnorm="probability density", name="Returns", opacity=.68, marker_color="#0f766e"))
-        fig_hist.add_trace(go.Scatter(x=x_vals, y=norm.pdf(x_vals, mu, sigma), mode="lines", name="Normal Fit", line=dict(color="#f97316", width=2.5)))
-        fig_hist.update_layout(title=f"{selected_stock} Return Distribution", xaxis_title="Daily Return", yaxis_title="Density", barmode="overlay")
-        style_figure(fig_hist, 500)
-        st.plotly_chart(fig_hist, width="stretch")
+with side_col:
+    st.markdown('<div class="side-card">', unsafe_allow_html=True)
+    st.markdown('<div class="panel-kicker">Live Board</div><div class="section-title">Market Movers</div><div class="panel-copy">Latest daily move across the current watchlist.</div>', unsafe_allow_html=True)
+    for ticker in latest_returns.index:
+        latest_price = prices[ticker].dropna().iloc[-1]
+        move = latest_returns[ticker]
+        badge_class = "badge-up" if move > 0 else "badge-down" if move < 0 else "badge-flat"
+        badge_text = f"{move:+.2%}"
+        st.markdown(
+            f"""
+            <div class="market-row">
+              <div>
+                <div class="ticker-name">{ticker}</div>
+                <div class="ticker-meta">{'Benchmark' if ticker == '^GSPC' else 'Tracked symbol'}</div>
+              </div>
+              <div style="text-align:right">
+                <div class="ticker-price">${latest_price:,.2f}</div>
+                <span class="{badge_class}">{badge_text}</span>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="side-card">', unsafe_allow_html=True)
+    st.markdown('<div class="panel-kicker">Winners / Losers</div><div class="section-title">Leaderboard</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="mini-card"><div class="mini-label">Top Performer</div><div class="mini-value">{leaderboard_df.iloc[0]["Ticker"]}</div><div class="mini-note">Return over period: {leaderboard_df.iloc[0]["Return"]:.2%}</div></div>', unsafe_allow_html=True)
+    st.markdown('<div style="height:.8rem"></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="mini-card"><div class="mini-label">Weakest Performer</div><div class="mini-value">{leaderboard_df.iloc[-1]["Ticker"]}</div><div class="mini-note">Return over period: {leaderboard_df.iloc[-1]["Return"]:.2%}</div></div>', unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown('<div class="side-card">', unsafe_allow_html=True)
+    st.markdown('<div class="panel-kicker">Risk Lens</div><div class="section-title">Return Distribution</div>', unsafe_allow_html=True)
+    r = prices[selected_stock].pct_change().dropna()
+    jb_stat, jb_p = jarque_bera(r)
+    side_metrics = st.columns(3)
+    side_metrics[0].metric("JB", f"{jb_stat:.2f}")
+    side_metrics[1].metric("p", f"{jb_p:.3f}")
+    side_metrics[2].metric("Skew", f"{skew(r):.2f}")
+    if jb_p < 0.05:
+        st.markdown('<div class="help-note">This return series is not especially bell-curve shaped, so extreme moves matter more than a basic normal assumption suggests.</div>', unsafe_allow_html=True)
     else:
-        st.warning("Please select at least one stock.")
+        st.markdown('<div class="help-note">This return series stays relatively close to a bell-curve pattern over the selected range.</div>', unsafe_allow_html=True)
+    mu, sigma = norm.fit(r)
+    x_vals = np.linspace(r.min(), r.max(), 300)
+    fig_hist = go.Figure()
+    fig_hist.add_trace(go.Histogram(x=r, histnorm="probability density", name="Returns", opacity=.72, marker_color="#22c55e"))
+    fig_hist.add_trace(go.Scatter(x=x_vals, y=norm.pdf(x_vals, mu, sigma), mode="lines", name="Normal Fit", line=dict(color="#60a5fa", width=2.4)))
+    fig_hist.update_layout(title=f"{selected_stock} Daily Return Shape", xaxis_title="Daily Return", yaxis_title="Density", barmode="overlay")
+    style_figure(fig_hist, 390)
+    st.plotly_chart(fig_hist, width="stretch")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-with tab4:
-    st.subheader("Correlation Matrix")
-    corr_df = prices[display_columns].pct_change().dropna()
-    corr_matrix = corr_df.corr()
-    fig_corr = go.Figure(data=go.Heatmap(z=corr_matrix.values, x=corr_matrix.columns, y=corr_matrix.columns, colorscale="Tealgrn", zmin=-1, zmax=1, colorbar=dict(title="Correlation"), text=corr_matrix.round(2).values, texttemplate="%{text}", textfont={"size": 13}))
-    fig_corr.update_layout(title="Correlation Heatmap of Daily Returns")
-    style_figure(fig_corr, 500)
-    st.plotly_chart(fig_corr, width="stretch")
-
-    stock_x = st.selectbox("Select X-axis stock", display_columns, index=0)
-    stock_y = st.selectbox("Select Y-axis stock", display_columns, index=1)
-    if stock_x != stock_y:
-        scatter_df = prices[[stock_x, stock_y]].pct_change().dropna()
-        fit = np.polyfit(scatter_df[stock_x], scatter_df[stock_y], 1)
-        trend_x = np.linspace(scatter_df[stock_x].min(), scatter_df[stock_x].max(), 100)
-        fig_scatter = go.Figure()
-        fig_scatter.add_trace(go.Scatter(x=scatter_df[stock_x], y=scatter_df[stock_y], mode="markers", name="Daily Returns", marker=dict(color="#0f766e", size=8, opacity=.65)))
-        fig_scatter.add_trace(go.Scatter(x=trend_x, y=fit[0] * trend_x + fit[1], mode="lines", name="Trend Line", line=dict(color="#f97316", width=2)))
-        fig_scatter.update_layout(title=f"{stock_x} vs {stock_y} Daily Returns", xaxis_title=stock_x, yaxis_title=stock_y)
-        style_figure(fig_scatter, 500)
-        st.plotly_chart(fig_scatter, width="stretch")
-    else:
-        st.warning("Please select two different stocks for the scatter plot.")
-
-    corr_stock_1 = st.selectbox("Select first stock", display_columns, index=0, key="corr1")
-    corr_stock_2 = st.selectbox("Select second stock", display_columns, index=1, key="corr2")
-    corr_window = st.selectbox("Rolling correlation window", [30, 60, 90], index=0)
-    if corr_stock_1 != corr_stock_2:
-        pair_returns = prices[[corr_stock_1, corr_stock_2]].pct_change().dropna()
-        rolling_corr = pair_returns[corr_stock_1].rolling(corr_window).corr(pair_returns[corr_stock_2])
-        fig_rollcorr = go.Figure()
-        fig_rollcorr.add_trace(go.Scatter(x=rolling_corr.index, y=rolling_corr, mode="lines", name="Rolling Correlation", line=dict(color="#7c3aed", width=2.3)))
-        fig_rollcorr.update_layout(title=f"Rolling {corr_window}-Day Correlation: {corr_stock_1} vs {corr_stock_2}", xaxis_title="Date", yaxis_title="Correlation")
-        style_figure(fig_rollcorr, 500)
-        st.plotly_chart(fig_rollcorr, width="stretch")
-    else:
-        st.warning("Please select two different stocks for rolling correlation.")
-
-    stock_a = st.selectbox("Select Stock A", valid_tickers, key="port_a")
-    stock_b = st.selectbox("Select Stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
+    st.markdown('<div class="side-card">', unsafe_allow_html=True)
+    st.markdown('<div class="panel-kicker">Portfolio Lab</div><div class="section-title">Two-Asset Mix</div>', unsafe_allow_html=True)
     if stock_a != stock_b:
-        weight = st.slider("Weight on Stock A (%)", 0, 100, 50) / 100
         pair = prices[[stock_a, stock_b]].pct_change().dropna()
         mean_returns = pair.mean() * 252
         cov_matrix = pair.cov() * 252
         portfolio_return = weight * mean_returns[stock_a] + (1 - weight) * mean_returns[stock_b]
         portfolio_vol = np.sqrt((weight ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - weight) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * weight * (1 - weight) * cov_matrix.loc[stock_a, stock_b])
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Annualized Return", f"{portfolio_return:.2%}")
-        c2.metric("Annualized Volatility", f"{portfolio_vol:.2%}")
-        c3.metric("Pair Correlation", f"{pair.corr().iloc[0, 1]:.2f}")
+        pcols = st.columns(2)
+        pcols[0].metric("Return", f"{portfolio_return:.2%}")
+        pcols[1].metric("Volatility", f"{portfolio_vol:.2%}")
         weights = np.linspace(0, 1, 100)
         vols, rets = [], []
         for w in weights:
             rets.append(w * mean_returns[stock_a] + (1 - w) * mean_returns[stock_b])
             vols.append(np.sqrt((w ** 2) * cov_matrix.loc[stock_a, stock_a] + ((1 - w) ** 2) * cov_matrix.loc[stock_b, stock_b] + 2 * w * (1 - w) * cov_matrix.loc[stock_a, stock_b]))
         fig_port = go.Figure()
-        fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#0f766e", width=2.5)))
-        fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#f97316"), name="Current Allocation"))
-        fig_port.update_layout(title="Risk / Return Path for Two-Asset Mix", xaxis_title="Annualized Volatility", yaxis_title="Annualized Return")
-        style_figure(fig_port, 520)
+        fig_port.add_trace(go.Scatter(x=vols, y=rets, mode="lines", name="Portfolio Curve", line=dict(color="#22c55e", width=2.5)))
+        fig_port.add_trace(go.Scatter(x=[portfolio_vol], y=[portfolio_return], mode="markers", marker=dict(size=12, color="#f97316"), name="Current Mix"))
+        fig_port.update_layout(title="Risk / Return Path", xaxis_title="Annualized Volatility", yaxis_title="Annualized Return")
+        style_figure(fig_port, 390)
         st.plotly_chart(fig_port, width="stretch")
     else:
-        st.warning("Please select two different stocks for the portfolio explorer.")
+        st.warning("Pick two different names for the portfolio mix.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-with tab5:
-    st.subheader("About This App")
-    st.write(
-        """
-        PulseQuant compares stocks, benchmarks them against the S&P 500, and explores volatility, drawdowns, return distribution, and diversification.
-
-        Methodology:
-        - Returns use simple daily percentage change.
-        - Annualized return uses mean daily return times 252 trading days.
-        - Annualized volatility uses daily standard deviation times sqrt(252).
-        - Beta is estimated from daily return covariance relative to the S&P 500.
-        - Drawdown measures the percentage drop from the running peak.
-        """
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="panel-kicker">Reference Deck</div><div class="section-title">Performance Table and Method</div>', unsafe_allow_html=True)
+deck_left, deck_right = st.columns([1.5, 1], gap="large")
+with deck_left:
+    st.dataframe(
+        leaderboard_df.style.format({"Return": "{:.2%}", "Volatility": "{:.2%}", "Sharpe": "{:.2f}", "Max Drawdown": "{:.2%}", "Beta": "{:.2f}"}),
+        width="stretch",
     )
-    st.markdown('<div class="section-card"><strong>Next upgrade ideas</strong><br><br>Add earnings dates, analyst targets, saved watchlists, sector rotation heatmaps, and AI-generated "what changed today" summaries for each ticker.</div>', unsafe_allow_html=True)
+    st.dataframe(
+        summary_stats(stats_returns).style.format({"Annualized Mean Return": "{:.2%}", "Annualized Volatility": "{:.2%}", "Sharpe Ratio": "{:.2f}", "Skewness": "{:.3f}", "Kurtosis": "{:.3f}", "Min Daily Return": "{:.2%}", "Max Daily Return": "{:.2%}"}),
+        width="stretch",
+    )
+with deck_right:
+    st.markdown(
+        """
+        <div class="help-note">
+        Returns use simple daily percentage changes. Annualized return is mean daily return multiplied by 252 trading days.
+        Annualized volatility is daily standard deviation multiplied by sqrt(252). Beta is estimated versus the S&amp;P 500 benchmark.
+        Drawdown tracks the percentage drop from each running peak.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
+        <div class="help-note" style="margin-top:1rem">
+        This reinvented layout is deliberately chart-first: the left side acts like a trading workspace, while the right side acts like a live market board and quick analysis stack.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+st.markdown("</div>", unsafe_allow_html=True)
