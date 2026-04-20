@@ -41,8 +41,13 @@ st.markdown(
     .stMetric{background:linear-gradient(180deg,rgba(16,27,42,.98),rgba(12,21,33,.98));border:1px solid rgba(125,151,179,.14);padding:.75rem;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.15)}
     .stMetric label,.stMetric [data-testid="stMetricLabel"],.stMetric [data-testid="stMetricValue"]{color:#f8fbff !important}
     .stButton>button{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border-radius:999px;border:none;box-shadow:0 10px 24px rgba(37,99,235,.22)}
+    .stTabs [data-baseweb="tab-list"]{gap:.45rem;border-bottom:1px solid rgba(125,151,179,.18);padding-bottom:.35rem}
+    .stTabs [data-baseweb="tab"]{background:rgba(16,27,42,.85);border:1px solid rgba(125,151,179,.16);border-radius:14px;color:#dbeafe !important;font-weight:700;padding:.4rem .9rem}
+    .stTabs [aria-selected="true"]{background:rgba(30,41,59,.98) !important;color:#ffffff !important;border-color:rgba(96,165,250,.45);box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    .stTabs [data-baseweb="tab-highlight"]{display:none !important}
     .stSelectbox label,.stMultiSelect label,.stDateInput label,.stTextInput label,.stSlider label,.stToggle label{color:#cfe0f5 !important;font-weight:700}
-    .stCaption,.stMarkdown,.stText{color:#cfe0f5}
+    .stCaption,.stMarkdown,.stText{color:#dbeafe}
+    p, label, span, div[data-testid="stMarkdownContainer"]{color:#dbeafe}
     [data-baseweb="select"] > div,[data-baseweb="input"] > div,.stDateInput > div > div{background:#101b2a !important;border:1px solid rgba(125,151,179,.16) !important;color:#f8fbff !important;border-radius:14px !important;box-shadow:none}
     [data-baseweb="tag"]{background:#15314d !important;color:#dff7ff !important;border:1px solid rgba(125,151,179,.18)}
     .market-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.75rem .85rem;border-radius:14px;margin-bottom:.6rem}
@@ -230,30 +235,14 @@ wealth_df["Equal-Weight Portfolio"] = 10000 * (1 + prices[valid_tickers].pct_cha
 corr_df = prices[display_columns].pct_change().dropna()
 corr_matrix = corr_df.corr()
 
-selected_stocks = st.multiselect(
-    "Chart symbols",
-    options=display_columns,
-    default=display_columns,
-    help="Choose which symbols appear in the main chart stack.",
-)
-risk_stocks = st.multiselect(
-    "Risk symbols",
-    options=valid_tickers,
-    default=valid_tickers,
-    help="Choose which stocks to include in volatility analysis.",
-)
-vol_window = st.selectbox("Volatility window", [30, 60, 90], index=0)
-selected_stock = st.selectbox("Distribution focus", options=risk_stocks if risk_stocks else valid_tickers)
-stock_x = st.selectbox("Scatter X", display_columns, index=0)
-stock_y = st.selectbox("Scatter Y", display_columns, index=1)
-corr_stock_1 = st.selectbox("Rolling corr first", display_columns, index=0, key="corr1")
-corr_stock_2 = st.selectbox("Rolling corr second", display_columns, index=1, key="corr2")
-corr_window = st.selectbox("Rolling corr window", [30, 60, 90], index=0)
-stock_a = st.selectbox("Portfolio stock A", valid_tickers, key="port_a")
-stock_b = st.selectbox("Portfolio stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
-weight = st.slider("Weight on stock A (%)", 0, 100, 50) / 100
-
 with tab1:
+    selected_stocks = st.multiselect(
+        "Chart symbols",
+        options=display_columns,
+        default=display_columns,
+        help="Choose which symbols appear in the overview chart.",
+        key="overview_symbols",
+    )
     top_left, top_right = st.columns([2.3, 1], gap="large")
     with top_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -316,10 +305,17 @@ with tab1:
         st.markdown(f'<div class="mini-card"><div class="mini-label">Weakest Performer</div><div class="mini-value">{leaderboard_df.iloc[-1]["Ticker"]}</div><div class="mini-note">Return over period: {leaderboard_df.iloc[-1]["Return"]:.2%}</div></div>', unsafe_allow_html=True)
 
 with tab2:
+    perf_symbols = st.multiselect(
+        "Performance symbols",
+        options=display_columns,
+        default=display_columns,
+        help="Choose which symbols appear in the performance charts.",
+        key="performance_symbols",
+    )
     perf_left, perf_right = st.columns(2, gap="large")
     with perf_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
-        norm_df = prices[selected_stocks].apply(lambda col: col / col.dropna().iloc[0] if col.dropna().size else col) if selected_stocks else pd.DataFrame()
+        norm_df = prices[perf_symbols].apply(lambda col: col / col.dropna().iloc[0] if col.dropna().size else col) if perf_symbols else pd.DataFrame()
         fig_norm = go.Figure()
         for i, ticker in enumerate(norm_df.columns):
             fig_norm.add_trace(go.Scatter(x=norm_df.index, y=norm_df[ticker], mode="lines", name=ticker, line=dict(color=chart_palette[i % len(chart_palette)], width=2.4)))
@@ -354,6 +350,15 @@ with tab2:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with tab3:
+    risk_stocks = st.multiselect(
+        "Risk symbols",
+        options=valid_tickers,
+        default=valid_tickers,
+        help="Choose which stocks to include in volatility analysis.",
+        key="risk_symbols",
+    )
+    vol_window = st.selectbox("Volatility window", [30, 60, 90], index=0, key="risk_window")
+    selected_stock = st.selectbox("Distribution focus", options=risk_stocks if risk_stocks else valid_tickers, key="risk_focus")
     risk_left, risk_right = st.columns([1.6, 1], gap="large")
     with risk_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -391,6 +396,14 @@ with tab3:
         st.markdown("</div>", unsafe_allow_html=True)
 
 with tab4:
+    stock_x = st.selectbox("Scatter X", display_columns, index=0, key="rel_scatter_x")
+    stock_y = st.selectbox("Scatter Y", display_columns, index=1, key="rel_scatter_y")
+    corr_stock_1 = st.selectbox("Rolling corr first", display_columns, index=0, key="corr1")
+    corr_stock_2 = st.selectbox("Rolling corr second", display_columns, index=1, key="corr2")
+    corr_window = st.selectbox("Rolling corr window", [30, 60, 90], index=0, key="corr_window")
+    stock_a = st.selectbox("Portfolio stock A", valid_tickers, key="port_a")
+    stock_b = st.selectbox("Portfolio stock B", valid_tickers, index=1 if len(valid_tickers) > 1 else 0, key="port_b")
+    weight = st.slider("Weight on stock A (%)", 0, 100, 50, key="portfolio_weight") / 100
     rel_top_left, rel_top_right = st.columns(2, gap="large")
     with rel_top_left:
         st.markdown('<div class="section-card">', unsafe_allow_html=True)
@@ -477,4 +490,5 @@ with tab5:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
+
 
